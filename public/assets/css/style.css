@@ -394,7 +394,7 @@ sup {
 
 a {
   color: rgba(var(--cui-link-color-rgb), var(--cui-link-opacity, 1));
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover {
   --cui-link-color-rgb: var(--cui-link-hover-color-rgb);

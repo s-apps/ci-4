@@ -1,4 +1,3 @@
-
 <!DOCTYPE html><!--
 * CoreUI - Free Bootstrap Admin Template
 * @version v5.0.0
@@ -6,7 +5,7 @@
 * Copyright (c) 2024 creativeLabs Łukasz Holeczek
 * Licensed under MIT (https://github.com/coreui/coreui-free-bootstrap-admin-template/blob/main/LICENSE)
 -->
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <base href="./">
         <meta charset="utf-8">
@@ -15,9 +14,10 @@
         <title>EDS</title>
         <meta name="theme-color" content="#ffffff">
         <!-- Main styles for this application-->
+        <link href="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.css');?>" rel="stylesheet"> 
         <link href="<?php echo base_url('assets/css/style.css');?>" rel="stylesheet">
     </head>
-    <body>
+    <body style="overflow-y: scroll;">
     
     <?php echo $this->include('App\Views\layout\sidebar'); ?>
 
@@ -35,6 +35,54 @@
 
     </div>
     <!-- CoreUI and necessary plugins-->
-    <script src="<?php echo ('assets/js/coreui.bundle.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/coreui.bundle.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-table/locale/bootstrap-table-pt-BR.js');?>"></script>
+
+    <script>
+
+    $(function () {
+        $('#table').bootstrapTable({
+            url: "customer/list",
+            search: true,
+            clickToSelect: true,
+            toolbar: "#table-toolbar",
+            columns: [
+                { 
+                    field: "selecionado", 
+                    checkbox: true 
+                },
+                {
+                    field: "name",
+                    title: "Nome"
+                },
+                {
+                    field: "nickname",
+                    title: "Apelido"
+                },
+                {
+                    field: "phone",
+                    title: "Telefone"
+                },
+                {
+                    field: "cell_phone",
+                    title: "Celular"
+                }
+            ],
+            theadClasses: "table-light",
+            classes: "table table-bordered table-hover",
+        });
+
+        $('#table').on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table", function () {
+            var tamanho = $('#table').bootstrapTable("getSelections").length;
+            $("#edit").prop("disabled", (tamanho == 0 || tamanho > 1) ? true : false);
+            $("#delete").prop("disabled",  tamanho == 0);
+        });
+    });
+
+
+</script>
+
   </body>
 </html>

@@ -1,29 +1,32 @@
+<?php 
+    $uri = service('uri'); 
+?>
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand">
-            EDS
+            <?php echo date('d/m/Y');?>
         </div>
         <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"></button>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url('/');?>">
+            <a class="nav-link <?php echo ($uri->getSegment(1) == '') ? 'active' : '';?>" href="<?php echo base_url('/');?>">
                 <svg class="nav-icon">
-                    <use xlink:href="<?php echo ('assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer');?>"></use>
+                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer');?>"></use>
                 </svg> 
-                Dashboard
+                Painel de controle
             </a>
         </li>
-        <li class="nav-group">
+        <li class="nav-group <?php echo ($uri->getSegment(1) == 'customer') ? 'show' : '';?>">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon">
-                    <use xlink:href="<?php echo ('assets/vendors/@coreui/icons/svg/free.svg#cil-folder');?>"></use>
+                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-folder');?>"></use>
                 </svg> 
                 Cadastros
             </a>
             <ul class="nav-group-items compact" style="height: auto;">
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('customer');?>">
+                    <a class="nav-link <?php echo ($uri->getSegment(1) == 'customer') ? 'active' : '';?>" href="<?php echo base_url('customer');?>">
                         <span class="nav-icon">
                             <span class="nav-icon-bullet"></span>
                         </span> 
@@ -31,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('product');?>">
+                    <a class="nav-link <?php echo ($uri->getSegment(1) == 'product') ? 'active' : '';?>" href="<?php echo base_url('product');?>">
                         <span class="nav-icon">
                             <span class="nav-icon-bullet"></span>
                         </span> 

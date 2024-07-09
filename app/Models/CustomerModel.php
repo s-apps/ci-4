@@ -4,15 +4,28 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Product extends Model
+class CustomerModel extends Model
 {
-    protected $table            = 'products';
-    protected $primaryKey       = 'id';
+    protected $table            = 'customer';
+    protected $primaryKey       = 'customer_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'name', 
+        'nickname',
+        'address',
+        'address_number',
+        'address_complement',
+        'city',
+        'state',
+        'zip_code',
+        'phone',
+        'cell_phone',
+        'email',
+        'comments'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

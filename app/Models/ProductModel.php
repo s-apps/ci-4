@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Customer extends Model
+class ProductModel extends Model
 {
-    protected $table            = 'customers';
+    protected $table            = 'product';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
