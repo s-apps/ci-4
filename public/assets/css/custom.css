@@ -1,0 +1,6 @@
+.bootstrap-table .fixed-table-container .table.table-sm td {
+    padding: 0.30rem 1rem;
+}
+.bootstrap-table .fixed-table-container .table.table-sm .th-inner {
+    padding: 0.30rem 1rem;
+}

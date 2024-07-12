@@ -4,10 +4,16 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\CustomerModel;
-use Config\Database;
 
 class Customer extends BaseController
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = model(CustomerModel::class);
+    }
+
     public function index()
     {
         return view('customer/list');
@@ -15,11 +21,25 @@ class Customer extends BaseController
 
     public function list()
     {
-        $db = Database::connect();
-        $builder = $db->table('customer');
-        $query   = $builder->get();
-        $result  = $query->getResult();
-        echo json_encode($result);
+        $sort = $this->request->getGet('sort');
+        $order = $this->request->getGet('order');
+        $limit = $this->request->getGet('limit');
+        $offset = $this->request->getGet('offset') ?? 0;
+        $search = $this->request->getGet('search');
+        if (!empty($search)) {
+            $rows = $this->model->like('name' , $search, 'both', null, false)->orLike('nickname' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
+            $total = $this->model->like('name' , $search, 'both', null, false)->orLike('nickname' , $search, 'both', null, false)->countAllResults();
+        } else {
+            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
+            $total = $this->model->countAllResults();
+        }
+
+        echo json_encode(
+            [
+                'total' => $total, 
+                'rows' => $rows
+            ]
+        );
     }
 
     public function create()
@@ -28,18 +48,18 @@ class Customer extends BaseController
         return view('customer/form');
     }
 
-    public function edit()
+    public function edit($id)
     {
         helper('form');
-        return view('customer/form');
+        return view('customer/form', ["customer" => $this->model->asObject()->find($id)]);
     }
 
     public function save()
     {
         helper('form');
-
         $data = $this->request->getPost(
             [
+                'customer_id',
                 'name', 
                 'nickname',
                 'address',
@@ -52,10 +72,17 @@ class Customer extends BaseController
                 'cell_phone',
                 'email',
                 'comments'
-            ]);
+            ]
+        );
 
         // Checks whether the submitted data passed the validation rules.
         if (! $this->validateData($data, [
+            'customer_id' => [
+                'rules'  => 'max_length[4]',
+                'errors' => [
+                    'max_length' => 'O campo nome deve possuir no máximo 4 caracteres'
+                ],
+            ],
             'name' => [
                 'rules'  => 'required|max_length[60]|min_length[10]',
                 'errors' => [
@@ -140,23 +167,45 @@ class Customer extends BaseController
         // Gets the validated data.
         $post = $this->validator->getValidated();
 
-        $model = model(CustomerModel::class);
-
-        $model->save([
-            'name' => $post['name'],
-            'nickname' => $post['nickname'],
-            'address' => $post['address'],
-            'address_number' => $post['address_number'],
-            'address_complement' => $post['address_complement'],
-            'city' => $post['city'],
-            'state' => $post['state'],
-            'zip_code' => $post['zip_code'],
-            'phone' => $post['phone'],
-            'cell_phone' => $post['cell_phone'],
-            'email' => $post['email'],
-            'comments' => $post['comments']          
-        ]);
+        if (empty($post['customer_id'])) {
+            $this->model->save([
+                'name' => strtoupper($post['name']),
+                'nickname' => strtoupper($post['nickname']) ,
+                'address' => strtoupper($post['address']),
+                'address_number' => strtoupper($post['address_number']),
+                'address_complement' => strtoupper($post['address_complement']),
+                'city' => strtoupper($post['city']),
+                'state' => strtoupper($post['state']),
+                'zip_code' => $post['zip_code'],
+                'phone' => $post['phone'],
+                'cell_phone' => $post['cell_phone'],
+                'email' => $post['email'],
+                'comments' => $post['comments']          
+            ]);
+        } else {
+            $this->model->set('name', strtoupper($post['name']));
+            $this->model->set('nickname', strtoupper($post['nickname']));
+            $this->model->set('address', strtoupper($post['address']));
+            $this->model->set('address_number', strtoupper($post['address_number']));
+            $this->model->set('address_complement', strtoupper($post['address_complement']));
+            $this->model->set('city', strtoupper($post['city']));
+            $this->model->set('state', strtoupper($post['state']));
+            $this->model->set('zip_code', $post['zip_code']);
+            $this->model->set('phone', $post['phone']);
+            $this->model->set('cell_phone', $post['cell_phone']);
+            $this->model->set('email', $post['email']);
+            $this->model->set('comments', $post['comments']);
+            $this->model->where('customer_id', $post['customer_id']);
+            $this->model->update();
+        }
 
         return redirect()->to('customer');        
     }
+
+    public function delete($id)
+    {
+        $this->model->where('customer_id', $id)->delete();
+        return redirect()->to('customer');     
+    }
+
 }

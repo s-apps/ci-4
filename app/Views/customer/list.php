@@ -10,18 +10,6 @@
                     </svg>
                     Adicionar
                 </a>
-                <button id="edit" class="btn btn-primary" href="<?php echo base_url('customer/edit');?>" disabled>
-                    <svg class="icon me-1">
-                        <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-pencil');?>"></use>
-                    </svg>
-                    Editar
-                </button>
-                <button id="delete" class="btn btn-danger text-white" href="<?php echo base_url('customer/delete');?>" disabled>
-                    <svg class="icon me-1">
-                        <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-minus');?>"></use>
-                    </svg>
-                    Excluir
-                </button>
             </div>
             <table id="table"></table>
         </div>

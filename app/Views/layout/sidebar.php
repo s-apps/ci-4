@@ -12,15 +12,15 @@
         <li class="nav-item">
             <a class="nav-link <?php echo ($uri->getSegment(1) == '') ? 'active' : '';?>" href="<?php echo base_url('/');?>">
                 <svg class="nav-icon">
-                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer');?>"></use>
+                    <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer');?>"></use>
                 </svg> 
                 Painel de controle
             </a>
         </li>
-        <li class="nav-group <?php echo ($uri->getSegment(1) == 'customer') ? 'show' : '';?>">
+        <li class="nav-group <?php echo ($uri->getSegment(1) == 'customer') ? 'show' : '';?>" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon">
-                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-folder');?>"></use>
+                    <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-folder');?>"></use>
                 </svg> 
                 Cadastros
             </a>

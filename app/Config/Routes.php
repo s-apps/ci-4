@@ -12,7 +12,8 @@ $routes->get('/', [Dashboard::class, 'index']);
 $routes->group('customer', static function ($routes) {
     $routes->get('/', [Customer::class, 'index']);
     $routes->get('create', [Customer::class, 'create']);
-    $routes->get('edit', [Customer::class, 'edit']);
+    $routes->get('edit/(:num)', [Customer::class, 'edit']);
+    $routes->get('delete/(:num)', [Customer::class, 'delete']);
     $routes->post('save', [Customer::class, 'save']);
     $routes->get('list', [Customer::class, 'list']);
 });

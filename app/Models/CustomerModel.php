@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Database\ConnectionInterface;
 
 class CustomerModel extends Model
 {
@@ -13,6 +14,7 @@ class CustomerModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        'customer_id',
         'name', 
         'nickname',
         'address',
