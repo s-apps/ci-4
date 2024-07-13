@@ -9,6 +9,6 @@ class Product extends BaseController
 {
     public function index()
     {
-        return view('product');
+        return view('product/list');
     }
 }

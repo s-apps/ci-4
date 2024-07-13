@@ -41,88 +41,17 @@
     <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-table/locale/bootstrap-table-pt-BR.min.js');?>"></script>
 
-    <script>
-
-    $(function () {
-        $('#table').bootstrapTable({
-            url: "customer/list",
-            sidePagination: "server",
-            queryParamsType: "limit",
-            queryParams: queryParams,
-            search: true,
-            pagination: true,
-            paginationLoop: false,
-            paginationParts: ['pageInfo', 'pageList'],
-            pageSize: 50,
-            sortName: "name",
-            sortOrder: "asc",
-            toolbar: "#table-toolbar",
-            columns: [
-                {
-                    field: "name",
-                    title: "Nome",
-                    sortable: true
-                },
-                {
-                    field: "nickname",
-                    title: "Apelido",
-                    sortable: true
-                },
-                /* {
-                    field: "phone",
-                    title: "Telefone"
-                }, */
-                {
-                    field: "cell_phone",
-                    title: "Celular"
-                },
-                {
-                    field: "action",
-                    title: "Ações",
-                    align: "center",
-                    width: 120,
-                    clickToSelect: false,
-                    formatter: function actionFormatter(value) {
-                        return [
-                            `<a class="edit btn btn-warning btn-sm text-white me-2" href="javascript:" title="Edit Item">
-                                <svg class="icon">
-                                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-pencil');?>"></use>
-                                </svg>
-                            </a>
-                            <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
-                                <svg class="icon">
-                                    <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-trash');?>"></use>
-                                </svg>
-                            </a>                            
-                            `
-                        ].join('')
-                    },
-                    events: {
-                        "click .edit": function(e, value, row) {
-                            window.location.href = `customer/edit/${row.customer_id}`;
-                        },
-                        "click .delete": function(e, value, row) {
-                            window.location.href = `customer/delete/${row.customer_id}`;
-                        }
-                    }
-                }
-            ],
-            theadClasses: "table-light",
-            classes: "table table-bordered table-sm table-hover",
-        });
-    });
-
-    function queryParams(params) {
-        return {
-            sort: params.sort,
-            order: params.order,
-            limit: params.limit,
-            offset: params.offset,
-            search: params.search
-        };
-    }
-
-</script>
+    <?php
+        $uri = service('uri');
+        switch ($uri->getSegment(1)) {
+            case 'customer':
+                echo '<script src="' . base_url('assets/js/app/customer.js') . '"></script>';
+            break;
+            default:
+                echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';
+            break;    
+        }
+    ?>
 
   </body>
 </html>

@@ -4,3 +4,7 @@
 .bootstrap-table .fixed-table-container .table.table-sm .th-inner {
     padding: 0.30rem 1rem;
 }
+.sidebar-header {
+    justify-content: center;
+    padding: 0;
+}

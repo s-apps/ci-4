@@ -92,11 +92,11 @@ class Customer extends BaseController
                 ],
             ],
             'nickname' => [
-                'rules'  => 'required|max_length[45]|min_length[6]',
+                'rules'  => 'required|max_length[45]|min_length[5]',
                 'errors' => [
                     'required' => 'O campo apelido é obrigatório',
                     'max_length' => 'O campo apelido deve possuir no máximo 45 caracteres',
-                    'min_length' => 'O campo apelido deve possuir no mínimo 6 caracteres'
+                    'min_length' => 'O campo apelido deve possuir no mínimo 5 caracteres'
                 ],
             ],
             'address' => [
@@ -169,32 +169,34 @@ class Customer extends BaseController
 
         if (empty($post['customer_id'])) {
             $this->model->save([
-                'name' => strtoupper($post['name']),
-                'nickname' => strtoupper($post['nickname']) ,
-                'address' => strtoupper($post['address']),
-                'address_number' => strtoupper($post['address_number']),
-                'address_complement' => strtoupper($post['address_complement']),
-                'city' => strtoupper($post['city']),
-                'state' => strtoupper($post['state']),
-                'zip_code' => $post['zip_code'],
-                'phone' => $post['phone'],
-                'cell_phone' => $post['cell_phone'],
-                'email' => $post['email'],
-                'comments' => $post['comments']          
+                'name' => ltrim(strtoupper($post['name'])),
+                'nickname' => ltrim(strtoupper($post['nickname'])),
+                'address' => ltrim(strtoupper($post['address'])),
+                'address_number' => ltrim(strtoupper($post['address_number'])),
+                'address_complement' => ltrim(strtoupper($post['address_complement'])),
+                'city' => ltrim(strtoupper($post['city'])),
+                'state' => ltrim(strtoupper($post['state'])),
+                'zip_code' => ltrim($post['zip_code']),
+                'phone' => ltrim($post['phone']),
+                'cell_phone' => ltrim($post['cell_phone']),
+                'email' => ltrim($post['email']),
+                'comments' => ltrim($post['comments']),
+                'created_at' =>  date('Y-m-d H:i:s')        
             ]);
         } else {
-            $this->model->set('name', strtoupper($post['name']));
-            $this->model->set('nickname', strtoupper($post['nickname']));
-            $this->model->set('address', strtoupper($post['address']));
-            $this->model->set('address_number', strtoupper($post['address_number']));
-            $this->model->set('address_complement', strtoupper($post['address_complement']));
-            $this->model->set('city', strtoupper($post['city']));
-            $this->model->set('state', strtoupper($post['state']));
-            $this->model->set('zip_code', $post['zip_code']);
-            $this->model->set('phone', $post['phone']);
-            $this->model->set('cell_phone', $post['cell_phone']);
-            $this->model->set('email', $post['email']);
-            $this->model->set('comments', $post['comments']);
+            $this->model->set('name', ltrim(strtoupper($post['name'])));
+            $this->model->set('nickname', ltrim(strtoupper($post['nickname'])));
+            $this->model->set('address', ltrim(strtoupper($post['address'])));
+            $this->model->set('address_number', ltrim(strtoupper($post['address_number'])));
+            $this->model->set('address_complement', ltrim(strtoupper($post['address_complement'])));
+            $this->model->set('city', ltrim(strtoupper($post['city'])));
+            $this->model->set('state', ltrim(strtoupper($post['state'])));
+            $this->model->set('zip_code', ltrim($post['zip_code']));
+            $this->model->set('phone', ltrim($post['phone']));
+            $this->model->set('cell_phone', ltrim($post['cell_phone']));
+            $this->model->set('email', ltrim($post['email']));
+            $this->model->set('comments', ltrim($post['comments']));
+            $this->model->set('updated_at', date('Y-m-d H:i:s'));
             $this->model->where('customer_id', $post['customer_id']);
             $this->model->update();
         }

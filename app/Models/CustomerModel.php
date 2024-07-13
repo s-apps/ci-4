@@ -26,7 +26,9 @@ class CustomerModel extends Model
         'phone',
         'cell_phone',
         'email',
-        'comments'
+        'comments',
+        'created_at',
+        'updated_at'
     ];
 
     protected bool $allowEmptyInserts = false;
