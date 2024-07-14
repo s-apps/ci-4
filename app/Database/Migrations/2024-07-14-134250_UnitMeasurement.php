@@ -10,10 +10,10 @@ class UnitMeasurement extends Migration
     public function up()
     {
         $this->forge->addField([
-            'unit_measurement_id' => [
+            'measurement_id' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => false,
+                'unsigned'       => true,
                 'auto_increment' => true
             ],
             'description' => [
@@ -29,7 +29,7 @@ class UnitMeasurement extends Migration
                 'default' => new RawSql('CURRENT_TIMESTAMP')
             ]
         ]);
-        $this->forge->addKey('unit_measurement_id', true);
+        $this->forge->addKey('measurement_id', true);
         $this->forge->createTable('unit_measurement');
     }
 

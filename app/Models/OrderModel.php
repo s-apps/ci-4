@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class OrderModel extends Model
 {
-    protected $table            = 'orders';
+    protected $table            = 'order';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

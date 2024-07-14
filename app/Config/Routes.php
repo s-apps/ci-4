@@ -1,30 +1,46 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-use App\Controllers\Dashboard;
-use App\Controllers\Customer;
-use App\Controllers\Product;
+use App\Controllers\DashboardController;
+use App\Controllers\CustomerController;
+use App\Controllers\PackageController;
+use App\Controllers\ProductController;
 use App\Controllers\OrderController;
 
 /**
  * @var RouteCollection $routes
  */
 
-$routes->get('/', [Dashboard::class, 'index']);
-
 service('auth')->routes($routes);
 
+$routes->get('/', [DashboardController::class, 'index']);
+
 $routes->group('customer', static function ($routes) {
-    $routes->get('/', [Customer::class, 'index']);
-    $routes->get('create', [Customer::class, 'create']);
-    $routes->get('(:num)/edit', [Customer::class, 'edit']);
-    $routes->get('delete/(:num)', [Customer::class, 'delete']);
-    $routes->post('save', [Customer::class, 'save']);
-    $routes->get('list', [Customer::class, 'list']);
+    $routes->get('/', [CustomerController::class, 'index']);
+    $routes->get('create', [CustomerController::class, 'create']);
+    $routes->get('(:num)/edit', [CustomerController::class, 'edit']);
+    $routes->get('delete/(:num)', [CustomerController::class, 'delete']);
+    $routes->post('save', [CustomerController::class, 'save']);
+    $routes->get('list', [CustomerController::class, 'list']);
 });
 
+$routes->group('package', static function ($routes) {
+    $routes->get('/', [PackageController::class, 'index']);
+    $routes->get('create', [PackageController::class, 'create']);
+    $routes->get('(:num)/edit', [PackageController::class, 'edit']);
+    $routes->get('delete/(:num)', [PackageController::class, 'delete']);
+    $routes->post('save', [PackageController::class, 'save']);
+    $routes->get('list', [PackageController::class, 'list']);
+});
+
+
 $routes->group('product', static function ($routes) {
-    $routes->get('/', [Product::class, 'index']);
+    $routes->get('/', [ProductController::class, 'index']);
+    $routes->get('create', [ProductController::class, 'create']);
+    $routes->get('(:num)/edit', [ProductController::class, 'edit']);
+    $routes->get('delete/(:num)', [ProductController::class, 'delete']);
+    $routes->post('save', [ProductController::class, 'save']);
+    $routes->get('list', [ProductController::class, 'list']);
 });
 
 $routes->group('order', static function ($routes) {

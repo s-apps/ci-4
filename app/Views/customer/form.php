@@ -26,6 +26,13 @@
         <form action="<?php echo base_url('customer/save');?>" method="post">
             <div class="card-body" style="background-color: rgba( 37, 43, 54 , 0.03);">
 
+                <?php if (!empty($errors)) { ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo implode('<br/>', $errors);?>
+                        <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>    
+
                 <?php echo csrf_field(); ?>
 
                 <input type="hidden" id="customer_id" name="customer_id" value="<?php echo ($customer->customer_id ?? ""); ?>">

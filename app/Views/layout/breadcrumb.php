@@ -7,6 +7,10 @@
             $folder = 'Cadastros';
             $segment = 'Clientes';
         break;
+        case 'package':
+            $folder = 'Cadastros';
+            $segment = 'Embalagens';
+        break;    
         case 'product':
             $folder = 'Cadastros';
             $segment = 'Produtos';

@@ -3,23 +3,20 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Database\ConnectionInterface;
 
-class ProductModel extends Model
+class PackageModel extends Model
 {
-    protected $table            = 'product';
-    protected $primaryKey       = 'product_id';
+    protected $table            = 'package';
+    protected $primaryKey       = 'package_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'product_id',
         'package_id',
+        'unit_measurement_id',
+        'capacity',
         'description',
-        'cost_value',
-        'sale_value',
-        'resale_value',
         'created_at',
         'updated_at'
     ];

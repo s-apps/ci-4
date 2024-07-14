@@ -3,7 +3,6 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql;
 
 class Package extends Migration
 {
@@ -13,32 +12,34 @@ class Package extends Migration
             'package_id' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => false,
-                'auto_increment' => true
+                'unsigned'       => true,
+                'auto_increment' => true,
             ],
-            'package_type_id'  => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-            ],
-            'description' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '100'
+            'unit_measurement_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true
             ],
             'capacity'      => [
                 'type'      => 'INT',
                 'constraint' => 11
             ],
+            'description'   => [
+                'type' => 'VARCHAR',
+                'constraint' => '60'
+            ],
             'created_at' => [
-                'type'    => 'TIMESTAMP',
-                'default' => new RawSql('CURRENT_TIMESTAMP')
+                'type' => 'DATETIME',
+                'null' => true,
             ],
             'updated_at' => [
-                'type'    => 'TIMESTAMP',
-                'default' => new RawSql('CURRENT_TIMESTAMP')
-            ]
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
         ]);
+
         $this->forge->addKey('package_id', true);
-        $this->forge->addForeignKey('package_type_id', 'package_type', 'packahe_type_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('unit_measurement_id', 'unit_measurement', 'measurement_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('package');
     }
 

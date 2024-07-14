@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\CustomerModel;
 
-class Customer extends BaseController
+class CustomerController extends BaseController
 {
     private $model;
 
@@ -80,7 +80,7 @@ class Customer extends BaseController
             'customer_id' => [
                 'rules'  => 'max_length[4]',
                 'errors' => [
-                    'max_length' => 'O campo nome deve possuir no máximo 4 caracteres'
+                    'max_length' => 'O campo ID deve possuir no máximo 4 caracteres'
                 ],
             ],
             'name' => [
@@ -161,7 +161,7 @@ class Customer extends BaseController
             ]
         ])) {
             // The validation fails, so returns the form.
-            return view('customer/form');
+            return view('customer/form', ['errors' => $this->validator->getErrors()]);
         }
 
         // Gets the validated data.
@@ -169,13 +169,13 @@ class Customer extends BaseController
 
         if (empty($post['customer_id'])) {
             $this->model->save([
-                'name' => ltrim(strtoupper($post['name'])),
-                'nickname' => ltrim(strtoupper($post['nickname'])),
-                'address' => ltrim(strtoupper($post['address'])),
-                'address_number' => ltrim(strtoupper($post['address_number'])),
-                'address_complement' => ltrim(strtoupper($post['address_complement'])),
-                'city' => ltrim(strtoupper($post['city'])),
-                'state' => ltrim(strtoupper($post['state'])),
+                'name' => ltrim(mb_strtoupper($post['name'])),
+                'nickname' => ltrim(mb_strtoupper($post['nickname'])),
+                'address' => ltrim(mb_strtoupper($post['address'])),
+                'address_number' => ltrim(mb_strtoupper($post['address_number'])),
+                'address_complement' => ltrim(mb_strtoupper($post['address_complement'])),
+                'city' => ltrim(mb_strtoupper($post['city'])),
+                'state' => ltrim(mb_strtoupper($post['state'])),
                 'zip_code' => ltrim($post['zip_code']),
                 'phone' => ltrim($post['phone']),
                 'cell_phone' => ltrim($post['cell_phone']),
@@ -184,13 +184,13 @@ class Customer extends BaseController
                 'created_at' =>  date('Y-m-d H:i:s')        
             ]);
         } else {
-            $this->model->set('name', ltrim(strtoupper($post['name'])));
-            $this->model->set('nickname', ltrim(strtoupper($post['nickname'])));
-            $this->model->set('address', ltrim(strtoupper($post['address'])));
-            $this->model->set('address_number', ltrim(strtoupper($post['address_number'])));
-            $this->model->set('address_complement', ltrim(strtoupper($post['address_complement'])));
-            $this->model->set('city', ltrim(strtoupper($post['city'])));
-            $this->model->set('state', ltrim(strtoupper($post['state'])));
+            $this->model->set('name', ltrim(mb_strtoupper($post['name'])));
+            $this->model->set('nickname', ltrim(mb_strtoupper($post['nickname'])));
+            $this->model->set('address', ltrim(mb_strtoupper($post['address'])));
+            $this->model->set('address_number', ltrim(mb_strtoupper($post['address_number'])));
+            $this->model->set('address_complement', ltrim(mb_strtoupper($post['address_complement'])));
+            $this->model->set('city', ltrim(mb_strtoupper($post['city'])));
+            $this->model->set('state', ltrim(mb_strtoupper($post['state'])));
             $this->model->set('zip_code', ltrim($post['zip_code']));
             $this->model->set('phone', ltrim($post['phone']));
             $this->model->set('cell_phone', ltrim($post['cell_phone']));

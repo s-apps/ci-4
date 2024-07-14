@@ -47,6 +47,12 @@
             case 'customer':
                 echo '<script src="' . base_url('assets/js/app/customer.js') . '"></script>';
             break;
+            case 'package':
+                echo '<script src="' . base_url('assets/js/app/package.js') . '"></script>';
+            break;    
+            case 'product':
+                echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
+            break;    
             default:
                 echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';
             break;    

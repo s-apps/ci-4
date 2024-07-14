@@ -13,12 +13,13 @@ class Product extends Migration
             'product_id' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => false,
+                'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'package_id'  => [
-                'type'           => 'INT',
-                'constraint'     => 11,
+            'package_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
             ],
             'description' => [
                 'type'           => 'VARCHAR',
@@ -52,8 +53,8 @@ class Product extends Migration
             ]
         ]);
         $this->forge->addKey('product_id', true);
-        $this->forge->addForeignKey('package_id', 'package', 'package_id');
-        $this->forge->createTable('product');
+        $this->forge->addForeignKey('package_id', 'package', 'package_id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('product');        
     }
 
     public function down()

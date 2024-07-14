@@ -17,7 +17,7 @@
                 Painel de controle
             </a>
         </li>
-        <li class="nav-group <?php echo ($uri->getSegment(1) == 'customer') ? 'show' : '';?>" aria-expanded="false">
+        <li class="nav-group <?php echo ($uri->getSegment(1) == 'customer' || $uri->getSegment(1) == 'package' || $uri->getSegment(1) == 'product') ? 'show' : '';?>" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon">
                     <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-folder');?>"></use>
@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($uri->getSegment(1) == 'beaker') ? 'active' : '';?>" href="<?php echo base_url('beaker');?>">
+                    <a class="nav-link <?php echo ($uri->getSegment(1) == 'package') ? 'active' : '';?>" href="<?php echo base_url('package');?>">
                         <span class="nav-icon">
                             <span class="nav-icon-bullet"></span>
                         </span> 

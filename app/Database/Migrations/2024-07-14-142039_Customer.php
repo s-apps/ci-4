@@ -13,7 +13,7 @@ class Customer extends Migration
             'customer_id' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
-                'unsigned'       => false,
+                'unsigned'       => true,
                 'auto_increment' => true
             ],
             'name' => [
