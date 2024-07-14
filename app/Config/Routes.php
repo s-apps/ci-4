@@ -1,18 +1,14 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-use App\Controllers\AuthController;
 use App\Controllers\Dashboard;
 use App\Controllers\Customer;
 use App\Controllers\Product;
+use App\Controllers\OrderController;
 
 /**
  * @var RouteCollection $routes
  */
-
-$routes->group('auth', static function ($routes) {
-    $routes->get('login', [AuthController::class, 'login']);
-});
 
 $routes->get('/', [Dashboard::class, 'index']);
 
@@ -29,4 +25,8 @@ $routes->group('customer', static function ($routes) {
 
 $routes->group('product', static function ($routes) {
     $routes->get('/', [Product::class, 'index']);
+});
+
+$routes->group('order', static function ($routes) {
+    $routes->get('/', [OrderController::class, 'index']);
 });

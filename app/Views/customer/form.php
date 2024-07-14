@@ -13,11 +13,11 @@
                         case 'create':
                             echo 'Adicionando';
                         break;
-                        case 'edit':
-                            echo 'Editando';
-                        break;
                         case 'save':
                             echo 'Salvando';
+                        break;
+                        default:
+                            echo 'Editando';
                         break;
                     }
                 ?>
@@ -25,13 +25,6 @@
         </div>
         <form action="<?php echo base_url('customer/save');?>" method="post">
             <div class="card-body" style="background-color: rgba( 37, 43, 54 , 0.03);">
-
-                <?php if (validation_list_errors()) { ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <button class="btn-close" type="button" data-coreui-dismiss="alert" aria-label="Close"></button>
-                        <?php echo validation_list_errors();?>
-                    </div>
-                <?php } ?>
 
                 <?php echo csrf_field(); ?>
 
@@ -119,13 +112,13 @@
             <div class="card-footer bg-white">
                 <button type="submit" id="save" class="btn btn-primary" href="<?php echo base_url('customer/save');?>">
                     <svg class="icon me-1">
-                        <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-save');?>"></use>
+                        <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-save');?>"></use>
                     </svg>
                     Salvar
                 </button>
                 <a id="cancel" class="btn btn-secondary" href="<?php echo base_url('customer');?>">
                     <svg class="icon me-1">
-                        <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-action-undo');?>"></use>
+                        <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-action-undo');?>"></use>
                     </svg>
                     Cancelar
                 </a>

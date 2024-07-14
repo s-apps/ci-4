@@ -34,6 +34,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link <?php echo ($uri->getSegment(1) == 'beaker') ? 'active' : '';?>" href="<?php echo base_url('beaker');?>">
+                        <span class="nav-icon">
+                            <span class="nav-icon-bullet"></span>
+                        </span> 
+                        Embalagens
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link <?php echo ($uri->getSegment(1) == 'product') ? 'active' : '';?>" href="<?php echo base_url('product');?>">
                         <span class="nav-icon">
                             <span class="nav-icon-bullet"></span>
@@ -42,6 +50,22 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('order');?>">
+                <svg class="nav-icon">
+                    <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-cart');?>"></use>
+                </svg> 
+                Pedidos
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('logout');?>">
+                <svg class="nav-icon">
+                    <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-exit-to-app');?>"></use>
+                </svg> 
+                Sair
+            </a>
         </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">

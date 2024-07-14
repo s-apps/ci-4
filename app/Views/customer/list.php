@@ -6,7 +6,7 @@
             <div id="table-toolbar">
                 <a id="add" class="btn btn-primary" href="<?php echo base_url('customer/create');?>">
                     <svg class="icon me-1">
-                        <use xlink:href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-plus');?>"></use>
+                        <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-plus');?>"></use>
                     </svg>
                     Adicionar
                 </a>

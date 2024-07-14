@@ -5,18 +5,18 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;
 
-class Product extends Migration
+class Package extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'product_id' => [
+            'package_id' => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'unsigned'       => false,
                 'auto_increment' => true
             ],
-            'package_id'  => [
+            'package_type_id'  => [
                 'type'           => 'INT',
                 'constraint'     => 11,
             ],
@@ -24,23 +24,9 @@ class Product extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '100'
             ],
-            'cost_value' => [
-                'type'           => 'DECIMAL',
-                'constraint'     => '9,2',
-                'null' => false,
-                'default' => 0.00
-            ],
-            'sale_value' => [
-                'type'           => 'DECIMAL',
-                'constraint'     => '9,2',
-                'null' => false,
-                'default' => 0.00
-            ],
-            'resale_value'     => [
-                'type'           => 'DECIMAL',
-                'constraint'     => '9,2',
-                'null' => false,
-                'default' => 0.00
+            'capacity'      => [
+                'type'      => 'INT',
+                'constraint' => 11
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
@@ -51,13 +37,13 @@ class Product extends Migration
                 'default' => new RawSql('CURRENT_TIMESTAMP')
             ]
         ]);
-        $this->forge->addKey('product_id', true);
-        $this->forge->addForeignKey('package_id', 'package', 'package_id');
-        $this->forge->createTable('product');
+        $this->forge->addKey('package_id', true);
+        $this->forge->addForeignKey('package_type_id', 'package_type', 'packahe_type_id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('package');
     }
 
     public function down()
     {
-        $this->forge->dropTable('product');
+        $this->forge->dropTable('package');
     }
 }

@@ -39,12 +39,12 @@ $(function () {
                     return [
                         `<a class="edit btn btn-warning btn-sm text-white me-2" href="javascript:" title="Edit Item">
                             <svg class="icon">
-                                <use xlink:href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
                             </svg>
                         </a>
                         <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
                             <svg class="icon">
-                                <use xlink:href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
+                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
                             </svg>
                         </a>                            
                         `
