@@ -21,6 +21,15 @@ $(function () {
                 sortable: true
             },
             {
+                field: 'package_description',
+                title: 'Embalagem',
+                formatter: function (value, row) {
+                    return [
+                        `${row.package_description} ${row.capacity} ${row.unit_measurement_description}`
+                    ].join('')
+                }
+            },
+            {
                 field: "action",
                 title: "Ações",
                 align: "center",

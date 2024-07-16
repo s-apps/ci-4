@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UnitMeasurementModel extends Model
 {
     protected $table            = 'unit_measurement';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'measurement_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

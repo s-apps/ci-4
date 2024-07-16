@@ -15,12 +15,15 @@
             $folder = 'Cadastros';
             $segment = 'Produtos';
         break;
+        case 'order':
+            $segment = 'Pedidos';
+        break;    
     }
 ?>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb my-0">
         <li class="breadcrumb-item">
-            <a href="#">Painel de controle</a>
+            <a href="<?php echo base_url('/');?>">Painel de controle</a>
         </li>
         <?php if (!empty($folder)) { ?>
             <li class="breadcrumb-item">

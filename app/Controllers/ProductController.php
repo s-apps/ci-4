@@ -6,16 +6,19 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\PackageModel;
 use App\Models\ProductModel;
+use App\Models\UnitMeasurementModel;
 
 class ProductController extends BaseController
 {
     private $model;
     private $modelPackage;
+    private $modelUnitMeasurement;
 
     public function __construct()
     {
         $this->model = model(ProductModel::class);
         $this->modelPackage = model(PackageModel::class);
+        $this->modelUnitMeasurement = model(UnitMeasurementModel::class);
     }
 
     public function index()
@@ -30,6 +33,12 @@ class ProductController extends BaseController
         $limit = $this->request->getGet('limit');
         $offset = $this->request->getGet('offset') ?? 0;
         $search = $this->request->getGet('search');
+
+        $this->model->select('product.*, package.description as package_description, package.capacity, unit_measurement.description as unit_measurement_description');
+
+        $this->model->join('package', 'product.package_id = package.package_id');
+        $this->model->join('unit_measurement', 'package.unit_measurement_id = unit_measurement.measurement_id');
+
         if (!empty($search)) {
             $rows = $this->model->like('description' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
             $total = $this->model->like('description' , $search, 'both', null, false)->countAllResults();
@@ -50,6 +59,12 @@ class ProductController extends BaseController
     {
         helper('form');
         $packages = $this->modelPackage->asObject()->findAll();
+
+        foreach ($packages as $package) {
+            $unit_measurement = $this->modelUnitMeasurement->asObject()->select(['description', ''])->where('measurement_id', $package->unit_measurement_id)->first();
+            $package->description = $package->description . ' ' . $package->capacity . ' ' . $unit_measurement->description;
+        }
+
         return view('product/form', ['packages' => $packages]);
     }
 
@@ -57,6 +72,12 @@ class ProductController extends BaseController
     {
         helper('form');
         $packages = $this->modelPackage->asObject()->findAll();
+
+        foreach ($packages as $package) {
+            $unit_measurement = $this->modelUnitMeasurement->asObject()->select(['description', ''])->where('measurement_id', $package->unit_measurement_id)->first();
+            $package->description = $package->description . ' ' . $package->capacity . ' ' . $unit_measurement->description;
+        }
+
         return view('product/form', ['product' => $this->model->asObject()->find($id), 'packages' => $packages]);
     }
 

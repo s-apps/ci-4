@@ -39,15 +39,15 @@
 
                 <div class="row g-3">
                     <div class="col-md-6 col-sm-12">
-                        <label for="description" class="form-label">Descrição<sup class="text-danger">*</sup></label>
+                        <label for="description" class="form-label">Descrição <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="description" name="description" value="<?php echo ($package->description ?? set_value('description'));?>" autocomplete="off" autofocus>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                        <label for="capacity" class="form-label">Capacidade<sup class="text-danger">*</sup></label>
+                        <label for="capacity" class="form-label">Capacidade <sup class="text-danger">*</sup></label>
                         <input type="number" class="form-control" id="capacity" name="capacity" value="<?php echo ($package->capacity ?? set_value('capacity'));?>" autocomplete="off" autofocus>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                        <label for="unit_measurement_id" class="form-label">Unidade de medida<sup class="text-danger">*</sup></label>
+                        <label for="unit_measurement_id" class="form-label">Unidade de medida <sup class="text-danger">*</sup></label>
                         <select id="unit_measurement_id" name="unit_measurement_id" class="form-select text-uppercase">
                             <?php foreach($unit_measurements as $unit_measurement) { ?>
                                 <option 

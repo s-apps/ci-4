@@ -39,11 +39,11 @@
 
                 <div class="row g-3">
                     <div class="col-12">
-                        <label for="description" class="form-label">Descrição<sup class="text-danger">*</sup></label>
+                        <label for="description" class="form-label">Descrição <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="description" name="description" value="<?php echo ($product->description ?? set_value('description')); ?>" autocomplete="off">
                     </div>
                     <div class="col-12">
-                        <label for="package_id" class="form-label">Embalagem<sup class="text-danger">*</sup></label>
+                        <label for="package_id" class="form-label">Embalagem <sup class="text-danger">*</sup></label>
                         <select id="package_id" name="package_id" class="form-select">
                             <option value="">Selecione</option>
                             <?php foreach($packages as $package) { ?>
@@ -56,15 +56,15 @@
                         </select>
                     </div>            
                     <div class="col-md-4 col-sm-12">
-                        <label for="cost_value" class="form-label">Valor custo<sup class="text-danger">*</sup></label>
+                        <label for="cost_value" class="form-label">Valor custo <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="cost_value" name="cost_value" value="<?php echo ($product->cost_value ?? set_value('cost_value'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
-                        <label for="sale_value" class="form-label">Valor venda<sup class="text-danger">*</sup></label>
+                        <label for="sale_value" class="form-label">Valor venda <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="sale_value" name="sale_value" value="<?php echo ($product->sale_value ?? set_value('sale_value'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
-                        <label for="resale_value" class="form-label">Valor revenda<sup class="text-danger">*</sup></label>
+                        <label for="resale_value" class="form-label">Valor revenda <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="resale_value" name="resale_value" value="<?php echo ($product->resale_value ?? set_value('resale_value'));?>" autocomplete="off">
                     </div>
                 </div>

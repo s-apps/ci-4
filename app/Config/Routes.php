@@ -33,7 +33,6 @@ $routes->group('package', static function ($routes) {
     $routes->get('list', [PackageController::class, 'list']);
 });
 
-
 $routes->group('product', static function ($routes) {
     $routes->get('/', [ProductController::class, 'index']);
     $routes->get('create', [ProductController::class, 'create']);
@@ -45,4 +44,7 @@ $routes->group('product', static function ($routes) {
 
 $routes->group('order', static function ($routes) {
     $routes->get('/', [OrderController::class, 'index']);
+    $routes->get('create', [OrderController::class, 'create']);
+    $routes->get('create_customer_list', [OrderController::class, 'create_customer_list']);
+    $routes->get('create_product_list', [OrderController::class, 'create_product_list']);
 });

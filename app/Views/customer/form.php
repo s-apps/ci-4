@@ -39,11 +39,11 @@
 
                 <div class="row g-3">
                     <div class="col-md-8 col-sm-12">
-                        <label for="name" class="form-label">Nome<sup class="text-danger">*</sup></label>
+                        <label for="name" class="form-label">Nome <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="name" name="name" value="<?php echo ($customer->name ?? set_value('name')); ?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
-                        <label for="nickname" class="form-label">Apelido<sup class="text-danger">*</sup></label>
+                        <label for="nickname" class="form-label">Apelido <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase" id="nickname" name="nickname" value="<?php echo ($customer->nickname ?? set_value('nickname'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-10 col-sm-12">

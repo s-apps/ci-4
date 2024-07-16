@@ -7,12 +7,20 @@ use CodeIgniter\Model;
 class OrderModel extends Model
 {
     protected $table            = 'order';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'order_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'order_id',
+        'number',
+        'request_date',
+        'due_date',
+        'customer_id',
+        'created_at',
+        'updated_at'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

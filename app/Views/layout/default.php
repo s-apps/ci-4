@@ -17,6 +17,7 @@
         <link href="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.css');?>" rel="stylesheet"> 
         <link href="<?php echo base_url('assets/css/style.css');?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/custom.css');?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/js/jquery-ui/jquery-ui.min.css');?>" rel="stylesheet">
     </head>
     <body style="overflow-y: scroll;">
     
@@ -37,9 +38,11 @@
     </div>
     <!-- CoreUI and necessary plugins-->
     <script src="<?php echo base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery-ui/jquery-ui.min.js');?>"></script>
     <script src="<?php echo base_url('assets/js/coreui.bundle.min.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-table/locale/bootstrap-table-pt-BR.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery.inputmask.js');?>"></script>
 
     <?php
         $uri = service('uri');
@@ -52,6 +55,10 @@
             break;    
             case 'product':
                 echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
+            break;   
+            case 'order':
+                echo "<script>var teste = 'teste1'; </script>";
+                echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
             break;    
             default:
                 echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';

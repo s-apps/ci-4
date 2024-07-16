@@ -18,15 +18,12 @@ $(function () {
             {
                 field: 'description',
                 title: 'Descrição',
-                sortable: true
-            },
-            {
-                field: "capacity",
-                title: "Capacidade"
-            },
-            {
-                field: "unit_measurement_description",
-                title: "Unidade de medida"
+                sortable: true,
+                formatter: function (value, row) {
+                    return [
+                        `${row.description} ${row.capacity} ${row.unit_measurement_description}`
+                    ].join('')
+                }
             },
             {
                 field: "action",

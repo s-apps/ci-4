@@ -52,7 +52,7 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url('order');?>">
+            <a class="nav-link <?php echo ($uri->getSegment(1) == 'order') ? 'active' : '';?>" href="<?php echo base_url('order');?>">
                 <svg class="nav-icon">
                     <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-cart');?>"></use>
                 </svg> 
