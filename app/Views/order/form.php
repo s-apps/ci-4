@@ -23,7 +23,7 @@
                 ?>
             </string>
         </div>
-        <form action="<?php echo base_url('order/save');?>" method="post">
+        <form action="<?php echo base_url('order/save');?>" method="post" id="order-form">
             <div class="card-body" style="background-color: rgba( 37, 43, 54 , 0.03);">
 
                 <?php if (!empty($errors)) { ?>
@@ -39,50 +39,51 @@
 
                 <div class="row g-3">
                     <div class="col-4">
-                        <label for="number" class="form-label">Número <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="number" name="number" value="<?php echo (empty($order->number)) ? date('dmYHms') : set_value('number'); ?>" autocomplete="off" autofocus>
+                    <label for="number" class="form-label">Número <sup class="text-danger">*</sup></label>
+                       <input type="text" class="form-control text-uppercase shadow-none" id="number" name="number" value="<?php echo (empty($order->number)) ? date('dmYHms') : set_value('number'); ?>" autocomplete="off" readonly>
                     </div>
                     <div class="col-4">
                         <label for="request_date" class="form-label">Data do pedido <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="request_date" name="request_date" value="<?php echo (empty($order->request_date) ? date('d/m/Y') : set_value('request_date')); ?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="request_date" name="request_date" value="<?php echo (empty($order->request_date) ? date('d/m/Y') : set_value('request_date')); ?>" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="customer" class="form-label">Cliente <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="customer" name="customer" value="<?php echo set_value('customer');?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="customer" name="customer" value="<?php echo set_value('customer');?>" autocomplete="off" autofocus>
+                        <div id="customer-help" class="form-text text-danger fw-bold"></div>
                         <input type="hidden" id="customer_id" name="customer_id" value="">
+                        <input type="hidden" id="customer_type" name="customer_type" value="">
                     </div>
-                    <div class="col-12">
-                        <div class="form-check form-check-inline mt-3 mb-3">
-                            <input class="form-check-input" type="radio" name="tipo" id="sale" value="sale" checked="">
-                            <label class="form-check-label" for="sale"><?php echo strtoupper(lang('app.sale'));?></label>
+
+                    <div class="col-12 products-list">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="product" class="form-label">Produto <sup class="text-danger">*</sup></label>
+                                <input type="text" class="form-control text-uppercase shadow-none" id="product" name="product" value="<?php echo set_value('product');?>" autocomplete="off">
+                                <div id="product-help" class="form-text text-danger fw-bold"></div>
+                                <input type="hidden" id="product_id" name="product_id" value="">
+                            </div>
+                            <div class="col-2">
+                                <label for="amount" class="form-label">Quantidade <sup class="text-danger">*</sup></label>
+                                <input type="text" class="form-control text-uppercase shadow-none" id="amount" name="amount" value="<?php echo set_value('amount');?>" autocomplete="off">
+                            </div>
+                            <div class="col-2" style="padding-top: 2rem;">
+                                <button id="add" class="btn btn-primary" type="button">
+                                    <svg class="icon">
+                                        <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-plus');?>"></use>
+                                    </svg>
+                                    Produto
+                                </button>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div class="alert alert-danger fade show">
+                                    Cliente, Produto ou Quantidade não foram informados
+                                    <button type="button" class="btn-close shadow-none" aria-label="Close"></button>
+                                </div>
+                                <table id="table"></table>
+                            </div>
                         </div>
-                        <div class="form-check form-check-inline mt-3 mb-3">
-                            <input class="form-check-input" type="radio" name="tipo" id="resale" value="resale">
-                            <label class="form-check-label" for="resale"><?php echo strtoupper(lang('app.resale'));?></label>
-                        </div>                        
                     </div>
-                    <div class="col-8">
-                        <input type="text" class="form-control text-uppercase" id="product" name="product" value="<?php echo set_value('product');?>" autocomplete="off" placeholder="Selecione o produto">
-                        <input type="hidden" id="product_id" name="product_id" value="">
-                    </div>
-                    <div class="col-2">
-                        <input type="text" class="form-control text-uppercase" id="amount" name="amount" value="<?php echo set_value('amount');?>" autocomplete="off" placeholder="Qtde">
-                    </div>
-                    <div class="col-2">
-                        <button id="add" class="btn btn-primary" type="button">
-                            <svg class="icon">
-                                <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-plus');?>"></use>
-                            </svg>
-                        </button>
-                        <button id="delete" class="btn btn-danger text-white" type="button">
-                            <svg class="icon">
-                                <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-minus');?>"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="col-12">
-                        <table id="table"></table>
-                    </div>
+
                 </div>
             </div>
             <div class="card-footer bg-white">

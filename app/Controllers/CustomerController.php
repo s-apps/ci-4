@@ -62,6 +62,7 @@ class CustomerController extends BaseController
                 'customer_id',
                 'name', 
                 'nickname',
+                'type',
                 'address',
                 'address_number',
                 'address_complement',
@@ -97,6 +98,12 @@ class CustomerController extends BaseController
                     'required' => 'O campo apelido é obrigatório',
                     'max_length' => 'O campo apelido deve possuir no máximo 45 caracteres',
                     'min_length' => 'O campo apelido deve possuir no mínimo 5 caracteres'
+                ],
+            ],
+            'type' => [
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => 'O campo tipo é obrigatório'
                 ],
             ],
             'address' => [
@@ -171,6 +178,7 @@ class CustomerController extends BaseController
             $this->model->save([
                 'name' => ltrim(mb_strtoupper($post['name'])),
                 'nickname' => ltrim(mb_strtoupper($post['nickname'])),
+                'type' => $post['type'],
                 'address' => ltrim(mb_strtoupper($post['address'])),
                 'address_number' => ltrim(mb_strtoupper($post['address_number'])),
                 'address_complement' => ltrim(mb_strtoupper($post['address_complement'])),
@@ -186,6 +194,7 @@ class CustomerController extends BaseController
         } else {
             $this->model->set('name', ltrim(mb_strtoupper($post['name'])));
             $this->model->set('nickname', ltrim(mb_strtoupper($post['nickname'])));
+            $this->model->set('type', $post['type']);
             $this->model->set('address', ltrim(mb_strtoupper($post['address'])));
             $this->model->set('address_number', ltrim(mb_strtoupper($post['address_number'])));
             $this->model->set('address_complement', ltrim(mb_strtoupper($post['address_complement'])));

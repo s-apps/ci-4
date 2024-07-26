@@ -10,10 +10,12 @@ class UnitMeasurementSeeder extends Seeder
     {
         $data = [
             [
-                'description' => 'LT', 
+                'measurement_id' => 1,
+                'description' => 'L', 
                 'created_at' => date('Y-m-d H:i:s')
             ],
             [
+                'measurement_id' => 2,
                 'description' => 'ML', 
                 'created_at' => date('Y-m-d H:i:s')
             ],

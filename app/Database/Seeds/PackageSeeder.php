@@ -13,24 +13,35 @@ class PackageSeeder extends Seeder
                 'unit_measurement_id' => 1,
                 'capacity' => 5,
                 'description' => 'GALÃO',
+                'list_description' => 'GALÃO DE 5 L',
                 'created_at'  => date('Y-m-d H:i:s')
             ],
             [
                 'unit_measurement_id' => 1,
                 'capacity' => 2,
                 'description' => 'GARRAFA PET',
+                'list_description' => 'GARRAFA PET DE 2 L',
                 'created_at'  => date('Y-m-d H:i:s')
             ],
             [
                 'unit_measurement_id' => 1,
                 'capacity' => 1,
                 'description' => 'FRASCO',
+                'list_description' => 'FRASCO DE 1 L',
                 'created_at'  => date('Y-m-d H:i:s')
             ],
             [
                 'unit_measurement_id' => 2,
-                'capacity' => 1,
+                'capacity' => 60,
                 'description' => 'FRASCO',
+                'list_description' => 'FRASCO DE 60 ML',
+                'created_at'  => date('Y-m-d H:i:s')
+            ],
+            [
+                'unit_measurement_id' => 2,
+                'capacity' => 500,
+                'description' => 'FRASCO',
+                'list_description' => 'FRASCO DE 500 ML',
                 'created_at'  => date('Y-m-d H:i:s')
             ],
 

@@ -40,31 +40,41 @@
                 <div class="row g-3">
                     <div class="col-md-8 col-sm-12">
                         <label for="name" class="form-label">Nome <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="name" name="name" value="<?php echo ($customer->name ?? set_value('name')); ?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="name" name="name" value="<?php echo ($customer->name ?? set_value('name')); ?>" autocomplete="off" autofocus>
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <label for="nickname" class="form-label">Apelido <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="nickname" name="nickname" value="<?php echo ($customer->nickname ?? set_value('nickname'));?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="nickname" name="nickname" value="<?php echo ($customer->nickname ?? set_value('nickname'));?>" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check form-check-inline mt-3 mb-3">
+                            <input class="form-check-input" type="radio" name="type" id="sale" value="sale" <?php echo (!empty($customer->type) && $customer->type && $customer->type == 'sale') ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="sale"><?php echo strtoupper(lang('app.sale'));?></label>
+                        </div>
+                        <div class="form-check form-check-inline mt-3 mb-3">
+                            <input class="form-check-input" type="radio" name="type" id="resale" value="resale" <?php echo (!empty($customer->type) && $customer->type == 'resale') ? 'checked' : ((empty($customer->customer_id)) ? 'checked' : '') ;?>>
+                            <label class="form-check-label" for="resale"><?php echo strtoupper(lang('app.resale'));?></label>
+                        </div>                        
                     </div>
                     <div class="col-md-10 col-sm-12">
                         <label for="address" class="form-label">Endereço</label>
-                        <input type="text" class="form-control text-uppercase" id="address" name="address" value="<?php echo ($customer->address ?? set_value('address'));?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="address" name="address" value="<?php echo ($customer->address ?? set_value('address'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-2 col-sm-12">
                         <label for="address_number" class="form-label">Número</label>
-                        <input type="text" class="form-control text-uppercase" id="address_number" name="address_number" value="<?php echo ($customer->address_number ?? set_value('address_number'));?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="address_number" name="address_number" value="<?php echo ($customer->address_number ?? set_value('address_number'));?>" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="address_complement" class="form-label">Complemento</label>
-                        <input type="text" class="form-control text-uppercase" id="address_complement" name="address_complement" value="<?php echo ($customer->address_complement ?? set_value('address_complement'));?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="address_complement" name="address_complement" value="<?php echo ($customer->address_complement ?? set_value('address_complement'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="city" class="form-label">Cidade</label>
-                        <input type="text" class="form-control text-uppercase" id="city" name="city" value="<?php echo ($customer->city ?? set_value('city'));?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="city" name="city" value="<?php echo ($customer->city ?? set_value('city'));?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <label for="state" class="form-label">Estado</label>
-                        <select id="state" name="state" class="form-select text-uppercase">
+                        <select id="state" name="state" class="form-select text-uppercase shadow-none">
                             <option value="AC" <?php echo set_select('state', 'AC', (!empty($customer->state) && $customer->state === 'AC') ? true : false); ?>>Acre</option>
                             <option value="AL" <?php echo set_select('state', 'AL', (!empty($customer->state) && $customer->state === 'AL') ? true : false); ?>>Alagoas</option>
                             <option value="AP" <?php echo set_select('state', 'AP', (!empty($customer->state) && $customer->state === 'AP') ? true : false); ?>>Amapá</option>
@@ -96,23 +106,23 @@
                     </div>
                     <div class="col-md-2 col-sm-12">
                         <label for="zip_code" class="form-label">CEP</label>
-                        <input type="text" class="form-control" id="zip_code" name="zip_code" value="<?php echo set_value('zip_code');?>" autocomplete="off">
+                        <input type="text" class="form-control shadow-none" id="zip_code" name="zip_code" value="<?php echo set_value('zip_code');?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <label for="phone" class="form-label">Telefone</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo set_value('phone');?>" autocomplete="off">
+                        <input type="text" class="form-control shadow-none" id="phone" name="phone" value="<?php echo set_value('phone');?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <label for="cell_phone" class="form-label">Celular</label>
-                        <input type="text" class="form-control" id="cell_phone" name="cell_phone" value="<?php echo set_value('cell_phone');?>" autocomplete="off">
+                        <input type="text" class="form-control shadow-none" id="cell_phone" name="cell_phone" value="<?php echo set_value('cell_phone');?>" autocomplete="off">
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control text-lowercase" id="email" name="email" value="<?php echo set_value('email');?>" autocomplete="off">
+                        <input type="text" class="form-control text-lowercase shadow-none" id="email" name="email" value="<?php echo set_value('email');?>" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="comments" class="form-label">Obserações</label>
-                        <textarea class="form-control" id="comments" name="comments" rows="3"><?php echo set_value('comments');?></textarea>
+                        <textarea class="form-control shadow-none" id="comments" name="comments" rows="3"><?php echo set_value('comments');?></textarea>
                     </div>
                 </div>
             </div>

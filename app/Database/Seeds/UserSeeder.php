@@ -8,15 +8,19 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        $this->db->query('TRUNCATE TABLE users');
+        $this->db->query('TRUNCATE TABLE auth_identities');
+        
         $users = [
             [
                 'id' => 1,
-                'username' => 'Edgar',
+                'username' => 'edgar',
                 'active' => 1
             ],
             [
                 'id' => 2,
-                'username' => 'Débora',
+                'username' => 'debora',
                 'active' => 1
             ]
         ];
@@ -45,5 +49,7 @@ class UserSeeder extends Seeder
         foreach ($auth_identities as $value) {
             $this->db->table('auth_identities')->insert($value);
         }
+
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

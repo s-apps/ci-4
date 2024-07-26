@@ -17,6 +17,7 @@ class CustomerModel extends Model
         'customer_id',
         'name', 
         'nickname',
+        'type',
         'address',
         'address_number',
         'address_complement',

@@ -18,12 +18,20 @@ $(function () {
             {
                 field: 'description',
                 title: 'Descrição',
-                sortable: true,
-                formatter: function (value, row) {
-                    return [
-                        `${row.description} ${row.capacity} ${row.unit_measurement_description}`
-                    ].join('')
-                }
+                sortable: true
+            },
+            {
+                field: 'list_description',
+                title: 'Descrição em lista',
+                sortable: true
+            },
+            {
+                field: 'capacity',
+                title: 'Capacidade'
+            },
+            {
+                field: 'unit_measurement_description',
+                title: 'Unidade de medida'
             },
             {
                 field: "action",
@@ -69,4 +77,22 @@ function queryParams(params) {
         offset: params.offset,
         search: params.search
     };
+}
+
+$("#description, #capacity, #unit_measurement_id").on("input", function(){
+    update_list_description();
+});
+
+function update_list_description()
+{
+    $("#list_description").val("");
+
+    if ($("#description").val() != "" && $("#capacity").val() != "" && trim_measurement_id() != "")
+        $("#list_description").val($("#description").val() + " DE " + $("#capacity").val() + " " + trim_measurement_id());
+}
+
+function trim_measurement_id()
+{
+    var trim = $("#unit_measurement_id").val() != "" ? $.trim($('#unit_measurement_id').find(":selected").text()) : "";
+    return trim;
 }

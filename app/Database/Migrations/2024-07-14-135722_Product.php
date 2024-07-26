@@ -17,9 +17,9 @@ class Product extends Migration
                 'auto_increment' => true
             ],
             'package_id' => [
-                'type'       => 'INT',
+                'type'      => 'INT',
                 'constraint' => 11,
-                'unsigned'   => true,
+                'unsigned'   => true
             ],
             'description' => [
                 'type'           => 'VARCHAR',
@@ -53,6 +53,7 @@ class Product extends Migration
             ]
         ]);
         $this->forge->addKey('product_id', true);
+        $this->forge->addUniqueKey(['package_id', 'description'], 'product_package_unique');
         $this->forge->addForeignKey('package_id', 'package', 'package_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('product');        
     }

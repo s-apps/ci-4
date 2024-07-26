@@ -33,10 +33,10 @@
                 <form action="<?= url_to('login') ?>" method="post">
                     <?= csrf_field() ?>
 
-                    <!-- Email -->
+                    <!-- Username -->
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
-                        <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
+                        <input type="text" class="form-control" id="floatingUserNameInput" name="username" autocomplete="off" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" autofocus>
+                        <label for="floatingUserNameInput"><?= lang('Auth.username') ?></label>
                     </div>
 
                     <!-- Password -->

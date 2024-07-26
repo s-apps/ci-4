@@ -28,6 +28,10 @@ class Package extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '60'
             ],
+            'list_description'   => [
+                'type' => 'VARCHAR',
+                'constraint' => '60'
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

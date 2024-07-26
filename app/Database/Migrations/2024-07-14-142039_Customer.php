@@ -25,6 +25,11 @@ class Customer extends Migration
                 'constraint'     => '45',
                 'null' => true
             ],
+            'type' => [
+                'type'       => 'ENUM',
+                'constraint' => ['sale', 'resale'],
+                'default'    => 'resale',
+            ],
             'address' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '80',

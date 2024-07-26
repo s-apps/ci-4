@@ -1,5 +1,16 @@
 const base_url = "http://edgar.local/";
 
+$("#cost_value, #sale_value, #resale_value").inputmask({
+    alias:          "decimal",
+    groupSeparator: ".",
+    autoGroup:      true, 
+    digits:         2,
+    digitsOptional: false,
+    radixPoint: ",",
+    placeholder:    "0,00",
+    allowMinus: false
+ });
+
 $(function () {
     $('#table').bootstrapTable({
         url: "product/list",
@@ -21,13 +32,23 @@ $(function () {
                 sortable: true
             },
             {
-                field: 'package_description',
+                field: 'package',
                 title: 'Embalagem',
-                formatter: function (value, row) {
-                    return [
-                        `${row.package_description} ${row.capacity} ${row.unit_measurement_description}`
-                    ].join('')
+                formatter: function(value, row) {
+                    return `${row.package_description} ${row.capacity} ${row.unit_measurement_description}`
                 }
+            },
+            {
+                field: 'cost_value',
+                title: 'Custo'
+            },
+            {
+                field: 'sale_value',
+                title: 'Venda'
+            },
+            {
+                field: 'resale_value',
+                title: 'Revenda'
             },
             {
                 field: "action",

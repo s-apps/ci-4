@@ -17,6 +17,7 @@ class PackageModel extends Model
         'unit_measurement_id',
         'capacity',
         'description',
+        'list_description',
         'created_at',
         'updated_at'
     ];

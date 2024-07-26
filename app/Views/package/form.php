@@ -40,15 +40,16 @@
                 <div class="row g-3">
                     <div class="col-md-6 col-sm-12">
                         <label for="description" class="form-label">Descrição <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase" id="description" name="description" value="<?php echo ($package->description ?? set_value('description'));?>" autocomplete="off" autofocus>
+                        <input type="text" class="form-control text-uppercase shadow-none" id="description" name="description" value="<?php echo ($package->description ?? set_value('description'));?>" autocomplete="off" autofocus>
                     </div>
                     <div class="col-md-3 col-sm-12">
                         <label for="capacity" class="form-label">Capacidade <sup class="text-danger">*</sup></label>
-                        <input type="number" class="form-control" id="capacity" name="capacity" value="<?php echo ($package->capacity ?? set_value('capacity'));?>" autocomplete="off" autofocus>
+                        <input type="number" class="form-control shadow-none" id="capacity" name="capacity" value="<?php echo ($package->capacity ?? set_value('capacity'));?>" autocomplete="off" autofocus>
                     </div>
                     <div class="col-md-3 col-sm-12">
                         <label for="unit_measurement_id" class="form-label">Unidade de medida <sup class="text-danger">*</sup></label>
-                        <select id="unit_measurement_id" name="unit_measurement_id" class="form-select text-uppercase">
+                        <select id="unit_measurement_id" name="unit_measurement_id" class="form-select text-uppercase shadow-none">
+                            <option value="">Selecione</option>
                             <?php foreach($unit_measurements as $unit_measurement) { ?>
                                 <option 
                                     value="<?php echo $unit_measurement->measurement_id;?>"
@@ -57,7 +58,11 @@
                                 </option>
                             <?php } ?>    
                         </select>
-                    </div>            
+                    </div>  
+                    <div class="col-md-6 col-sm-12">
+                        <label for="list_description" class="form-label">Descrição em lista<sup class="text-danger">*</sup></label>
+                        <input type="text" class="form-control text-uppercase shadow-none" id="list_description" name="list_description" value="<?php echo ($package->list_description ?? set_value('list_description'));?>" autocomplete="off" readonly>
+                    </div>
                 </div>
             </div>
             <div class="card-footer bg-white">

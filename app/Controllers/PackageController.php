@@ -81,6 +81,7 @@ class PackageController extends BaseController
                 'package_id',
                 'unit_measurement_id',
                 'description', 
+                'list_description',
                 'capacity'
             ]
         );
@@ -107,6 +108,13 @@ class PackageController extends BaseController
                     'min_length' => 'O campo apelido deve possuir no mínimo 5 caracteres'
                 ],
             ],
+            'list_description' => [
+                'rules' => 'required|max_length[60]',
+                'errors' => [
+                    'required' => 'O campo descrição em lista é obrigatório',
+                    'max_length' => 'O campo descrição em lista deve possuir no máximo 60 caracteres'
+                ]
+            ],
             'capacity' => [
                 'rules' => 'required|numeric|max_length[11]|is_natural_no_zero',
                 'errors' => [
@@ -129,12 +137,13 @@ class PackageController extends BaseController
             $this->model->save([
                 'unit_measurement_id' => $post['unit_measurement_id'],
                 'description' => ltrim(mb_strtoupper($post['description'])), 
+                'list_description' => ltrim(mb_strtoupper($post['list_description'])), 
                 'capacity' => $post['capacity'],
                 'created_at' =>  date('Y-m-d H:i:s')        
             ]);
         } else {
             $this->model->set('unit_measurement_id', $post['unit_measurement_id']);
-            $this->model->set('description', ltrim(mb_strtoupper($post['description'])));
+            $this->model->set('list_description', ltrim(mb_strtoupper($post['list_description'])));
             $this->model->set('capacity', $post['capacity']);
             $this->model->set('updated_at', date('Y-m-d H:i:s'));
             $this->model->where('package_id', $post['package_id']);
