@@ -2,66 +2,20 @@ const base_url = "http://edgar.local";
 
 $(function () {
 
-    var $btn_add = $('#add');
+    var $btn_add_product = $('#add');
     var $table = $("#table");
     var $alert = $(".alert");
-
-/*     var products_list = $(".products-list");
-    var customer_id = $("#customer_id");
-
-    console.log(customer_id)
-
-    products_list.hide(); 
- */
 
     $(".btn-close").on("click", function(){
         $alert.hide();
     })
 
-    $btn_add.on("click", function () {
-        if (($("#customer_id").val() == "") || ($("#product_id").val() == "") || ($("#amount").val() == "")) {
-            $alert.show();
-            return;
-        }
-
-        $.get({
-            url: `${base_url}/product/get/${$("#product_id").val()}`,
-            dataType: "json",
-            success: function(data) {
-                const product_id = data.product.product_id;
-                
-                const tableData = $table.bootstrapTable("getData");
-                console.log(tableData)
-      /* tableData.forEach(row => {
-        console.log('ID:', row.product_id);
-      }); */
-                
-                
-                $table.bootstrapTable("insertRow", {
-                    index: 0,
-                    row: {
-                        product_id: data.product.product_id,
-                        amount: $("#amount").val(),
-                        description: `${data.product.description} ${data.product.package_description} ${data.product.capacity} ${data.product.unit_measurement_description}`,
-                        sale_value: data.product.sale_value
-                    }
-                });
-            },
-            complete: function () {
-                $("#amount").val("");
-                $("#product_id").val("");
-                $("#product").val("")
-            }
-        });
+    $btn_add_product.on("click", function () {
+        add_product();
     });
-
 
     $table.bootstrapTable({
         columns: [
-            { 
-                field: "selected", 
-                checkbox: true
-            },
             {
                 field: "product_id",
                 title: "ID",
@@ -70,21 +24,86 @@ $(function () {
             { 
                 field: "amount", 
                 title: "Qtde", 
-                align: "right" 
+                align: "right",
+                widthUnit: "%",
+                width: 5,
             },
             {
                 field: "description",
                 title: "Descrição"
             },
             {
-                field: "sale_value",
-                title: "Unitário"
+                field: "unitary_value",
+                title: "Unitário",
+                formatter: function unitaryValueFormatter(value) {
+                    return [
+                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    ].join('')
+                }
             },
             {
-                field: "total_value",
+                field: "total",
                 title: "Total",
-                formatter: function(value, row) {
-                    return row.amount * row.sale_value
+                formatter: function totalValueFormatter(value) {
+                    return [
+                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    ].join('')
+                }
+            },
+            {
+                field: "action",
+                title: "Ações",
+                align: "center",
+                widthUnit: "%",
+                width: 15,
+                clickToSelect: false,
+                formatter: function actionFormatter(value) {
+                    return [
+                        `<a class="quantify-add btn btn-primary btn-sm text-white me-2" href="javascript:" title="add quantify">
+                            <svg class="icon">
+                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-plus"></use>
+                            </svg>
+                        </a>
+                        <a class="quantify-subtract btn btn-warning btn-sm text-white me-2" href="javascript:" title="subtract quantify">
+                            <svg class="icon">
+                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-minus"></use>
+                            </svg>
+                        </a>
+                        <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
+                            <svg class="icon">
+                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
+                            </svg>
+                        </a>                            
+                        `
+                    ].join('')
+                },
+                events: {
+                    "click .quantify-add": function(e, value, row) {
+                        $table.bootstrapTable('updateByUniqueId', {
+                            id: row.product_id,
+                            row: {
+                              amount: (parseInt(row.amount) + 1).toString(),
+                              total: ((parseInt(row.amount) + 1) * parseFloat(row.unitary_value)).toString()
+                            }
+                        });
+                    },
+                    "click .quantify-subtract": function(e, value, row) {
+                        if (parseInt(row.amount) > 1) {
+                            $table.bootstrapTable('updateByUniqueId', {
+                                id: row.product_id,
+                                row: {
+                                  amount: (parseInt(row.amount) - 1).toString(),
+                                  total: ((parseInt(row.amount) - 1) * parseFloat(row.unitary_value)).toString()
+                                }
+                            });
+                        }
+                    },
+                    "click .delete": function(e, value, row) {
+                        $table.bootstrapTable('remove', {
+                            field: 'product_id', 
+                            values: row.product_id
+                        });
+                    }
                 }
             }
         ],
@@ -115,7 +134,7 @@ $(function () {
                 success: function(data) {
                     response($.map(data, function(item) {
                         return {
-                            label: item.name,
+                            label: `${item.name} - ${item.type === 'resale' ? 'REVENDA' : 'VENDA'}`,
                             value: item.customer_id,
                             type: item.type
                         };
@@ -130,7 +149,6 @@ $(function () {
         select: function(event, ui) {
             $("#customer").val(ui.item.label);
             $("#customer_id").val(ui.item.value);
-            $("#customer_type").val(ui.item.type);
             return false;
         },
         response: function( event, ui ) {
@@ -149,7 +167,6 @@ $(function () {
                     term: request.term
                 },
                 success: function(data) {
-                    console.log(data)
                     response($.map(data, function(item) {
                         return {
                             label: `${item.description} ${item.package_list_description}`,
@@ -186,5 +203,47 @@ $(function () {
         $("#product_id").val("");
         $("#product-help").text("");
     });
+
+
+    function add_product() {
+        const product_id = $("#product_id").val();
+        const customer_id = $("#customer_id").val();
+        const amount = $("#amount").val();
+
+        /* if (($("#customer_id").val() == "") || ($("#product_id").val() == "") || ($("#amount").val() == "") || (parseInt($("#amount").val()) < 1)) {
+            $alert.show();
+            return;
+        } */
+
+        $.get({
+            url: `${base_url}/order/add/product/${product_id}/${customer_id}/${amount}`,
+            dataType: "json",
+            success: function(data) {
+                console.log(data)
+                const tableData = $table.bootstrapTable("getData");
+                const filteredData = tableData.filter(function(item) {
+                    return item.product_id === product_id;
+                });
+
+                if (filteredData.length === 0) {
+                    $table.bootstrapTable("insertRow", {
+                        index: 0,
+                        row: {
+                            product_id: product_id,
+                            amount: amount,
+                            description: `${data.product.description} ${data.product.package_list_description}`,
+                            unitary_value: data.product.unitary_value,
+                            total: data.product.total
+                        }
+                    });
+                }
+            },    
+            complete: function () {
+                $("#amount").val("");
+                $("#product_id").val("");
+                $("#product").val("")
+            }
+        });
+    }
 
 });

@@ -51,4 +51,19 @@ class OrderController extends BaseController
         echo json_encode($products);
     }
 
+    public function add_product($product_id = null, $customer_id = null, $amount = null)
+    {
+        $this->modelProduct->select('product.*, package.list_description as package_list_description');
+        $this->modelProduct->join('package', 'product.package_id = package.package_id');
+        $product = $this->modelProduct->asObject()->find($product_id);
+
+        $customer = $this->modelCustomer->asObject()->select('type')->where('customer_id', $customer_id)->first();
+        $product->unitary_value = $customer->type === 'resale' ? $product->resale_value : $product->sale_value;
+
+        $product->total = $amount * $product->unitary_value;
+        // /$product->unitary_value = number_format($product->unitary_value, 2, ',', '.');
+
+        echo json_encode(['product' => $product]);
+    }
+
 }

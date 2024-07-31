@@ -216,14 +216,4 @@ class ProductController extends BaseController
         return redirect()->to('product');     
     }
 
-    public function get($id)
-    {
-        $this->model->select('product.*, package.description as package_description, package.capacity, unit_measurement.description as unit_measurement_description');
-        $this->model->join('package', 'product.package_id = package.package_id');
-        $this->model->join('unit_measurement', 'package.unit_measurement_id = unit_measurement.measurement_id'); 
-
-        $product = $this->model->asObject()->find($id);
-        echo json_encode(['product' => $product]);
-    }
-
 }

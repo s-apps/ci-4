@@ -51,7 +51,6 @@
                         <input type="text" class="form-control text-uppercase shadow-none" id="customer" name="customer" value="<?php echo set_value('customer');?>" autocomplete="off" autofocus>
                         <div id="customer-help" class="form-text text-danger fw-bold"></div>
                         <input type="hidden" id="customer_id" name="customer_id" value="">
-                        <input type="hidden" id="customer_type" name="customer_type" value="">
                     </div>
 
                     <div class="col-12 products-list">
@@ -64,10 +63,10 @@
                             </div>
                             <div class="col-2">
                                 <label for="amount" class="form-label">Quantidade <sup class="text-danger">*</sup></label>
-                                <input type="text" class="form-control text-uppercase shadow-none" id="amount" name="amount" value="<?php echo set_value('amount');?>" autocomplete="off">
+                                <input type="number" class="form-control text-uppercase shadow-none" id="amount" name="amount" value="<?php echo set_value('amount');?>" autocomplete="off">
                             </div>
                             <div class="col-2" style="padding-top: 2rem;">
-                                <button id="add" class="btn btn-primary" type="button">
+                                <button id="add" class="btn btn-primary w-100" type="button">
                                     <svg class="icon">
                                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-plus');?>"></use>
                                     </svg>
@@ -79,7 +78,7 @@
                                     Cliente, Produto ou Quantidade não foram informados
                                     <button type="button" class="btn-close shadow-none" aria-label="Close"></button>
                                 </div>
-                                <table id="table"></table>
+                                <table id="table" data-unique-id="product_id"></table>
                             </div>
                         </div>
                     </div>
