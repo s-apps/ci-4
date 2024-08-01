@@ -20,11 +20,6 @@ class Customer extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '60'
             ],
-            'nickname' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '45',
-                'null' => true
-            ],
             'type' => [
                 'type'       => 'ENUM',
                 'constraint' => ['sale', 'resale'],

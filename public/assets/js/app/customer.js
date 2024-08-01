@@ -21,9 +21,14 @@ $(function () {
                 sortable: true
             },
             {
-                field: "nickname",
-                title: "Apelido",
-                sortable: true
+                field: "type",
+                title: "Tipo",
+                sortable: true,
+                formatter: function typeFormatter(value) {
+                    return [
+                        value === 'resale' ? 'REVENDA' : 'VENDA'
+                    ].join('')
+                }
             },
             {
                 field: "cell_phone",

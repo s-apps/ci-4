@@ -42,11 +42,8 @@
                         <label for="name" class="form-label">Nome <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control text-uppercase shadow-none" id="name" name="name" value="<?php echo ($customer->name ?? set_value('name')); ?>" autocomplete="off" autofocus>
                     </div>
-                    <div class="col-md-4 col-sm-12">
-                        <label for="nickname" class="form-label">Apelido <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase shadow-none" id="nickname" name="nickname" value="<?php echo ($customer->nickname ?? set_value('nickname'));?>" autocomplete="off">
-                    </div>
-                    <div class="col-12">
+                    <div class="col-4">
+                        <div>Tipo <sup class="text-danger">*</sup></div>
                         <div class="form-check form-check-inline mt-3 mb-3">
                             <input class="form-check-input" type="radio" name="type" id="sale" value="sale" <?php echo (!empty($customer->type) && $customer->type && $customer->type == 'sale') ? 'checked' : ''; ?>>
                             <label class="form-check-label" for="sale"><?php echo strtoupper(lang('app.sale'));?></label>

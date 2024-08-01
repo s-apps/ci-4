@@ -27,8 +27,8 @@ class CustomerController extends BaseController
         $offset = $this->request->getGet('offset') ?? 0;
         $search = $this->request->getGet('search');
         if (!empty($search)) {
-            $rows = $this->model->like('name' , $search, 'both', null, false)->orLike('nickname' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->like('name' , $search, 'both', null, false)->orLike('nickname' , $search, 'both', null, false)->countAllResults();
+            $rows = $this->model->like('name' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
+            $total = $this->model->like('name' , $search, 'both', null, false)->countAllResults();
         } else {
             $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
             $total = $this->model->countAllResults();
@@ -61,7 +61,6 @@ class CustomerController extends BaseController
             [
                 'customer_id',
                 'name', 
-                'nickname',
                 'type',
                 'address',
                 'address_number',
@@ -90,14 +89,6 @@ class CustomerController extends BaseController
                     'required' => 'O campo nome é obrigatório',
                     'max_length' => 'O campo nome deve possuir no máximo 60 caracteres',
                     'min_length' => 'O campo nome deve possuir no mínimo 10 caracteres'
-                ],
-            ],
-            'nickname' => [
-                'rules'  => 'required|max_length[45]|min_length[5]',
-                'errors' => [
-                    'required' => 'O campo apelido é obrigatório',
-                    'max_length' => 'O campo apelido deve possuir no máximo 45 caracteres',
-                    'min_length' => 'O campo apelido deve possuir no mínimo 5 caracteres'
                 ],
             ],
             'type' => [
@@ -177,7 +168,6 @@ class CustomerController extends BaseController
         if (empty($post['customer_id'])) {
             $this->model->save([
                 'name' => ltrim(mb_strtoupper($post['name'])),
-                'nickname' => ltrim(mb_strtoupper($post['nickname'])),
                 'type' => $post['type'],
                 'address' => ltrim(mb_strtoupper($post['address'])),
                 'address_number' => ltrim(mb_strtoupper($post['address_number'])),
@@ -193,7 +183,6 @@ class CustomerController extends BaseController
             ]);
         } else {
             $this->model->set('name', ltrim(mb_strtoupper($post['name'])));
-            $this->model->set('nickname', ltrim(mb_strtoupper($post['nickname'])));
             $this->model->set('type', $post['type']);
             $this->model->set('address', ltrim(mb_strtoupper($post['address'])));
             $this->model->set('address_number', ltrim(mb_strtoupper($post['address_number'])));
