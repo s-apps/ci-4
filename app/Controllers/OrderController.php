@@ -36,7 +36,7 @@ class OrderController extends BaseController
     {
         $term = $this->request->getGet('term');
         $customers = $this->modelCustomer->like('name' , $term, 'both', null, false)->orderBy('name', 'ASC')->asObject()->findAll();
-        echo json_encode($customers);
+        return $this->response->setJSON($customers);
     }
 
     public function create_product_list()
@@ -48,7 +48,7 @@ class OrderController extends BaseController
         $this->modelProduct->join('unit_measurement', 'package.unit_measurement_id = unit_measurement.measurement_id'); 
 
         $products = $this->modelProduct->like('product.description' , $term, 'both', null, false)->orderBy('product.description', 'ASC')->asObject()->findAll();
-        echo json_encode($products);
+        return $this->response->setJSON($products);
     }
 
     public function add_product($product_id = null, $customer_id = null, $amount = null)
@@ -61,9 +61,48 @@ class OrderController extends BaseController
         $product->unitary_value = $customer->type === 'resale' ? $product->resale_value : $product->sale_value;
 
         $product->total = $amount * $product->unitary_value;
-        // /$product->unitary_value = number_format($product->unitary_value, 2, ',', '.');
 
-        echo json_encode(['product' => $product]);
+        return $this->response->setJSON(['product'=> $product]);
+    }
+
+    public function save()
+    {
+        helper('form');
+
+        /* $number = $this->request->getPost('number');
+        $request_date = $this->request->getPost('request_date');
+        $products = $this->request->getPost('products'); */
+
+
+
+        /* foreach ($products as $product) {
+            var_dump($product['product_id']);
+        }
+        exit; */
+
+        $data = $this->request->getPost(
+            [
+                'products'
+            ]
+        );
+
+        $data['products'][1]['product_id'] = null;
+
+        if (! $this->validateData($data, [
+            'products.*.product_id' => [
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => 'O campo ID do produto é obrigatório',
+                    'integer' => 'O campo ID do produto é um número inteiro'
+                ]    
+            ]
+        ]))
+        {
+           /*  echo json_encode(['errors' => $this->validator->getErrors()]); */
+           return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()]);
+        }
+        
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!']);
     }
 
 }

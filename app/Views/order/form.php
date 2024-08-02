@@ -23,15 +23,17 @@
                 ?>
             </string>
         </div>
-        <form action="<?php echo base_url('order/save');?>" method="post" id="order-form">
+        <form method="post" id="order-form">
             <div class="card-body" style="background-color: rgba( 37, 43, 54 , 0.03);">
 
-                <?php if (!empty($errors)) { ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?php echo implode('<br/>', $errors);?>
-                        <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>
+                <div class="toast-container top-50 start-50 translate-middle">
+                    <div class="toast align-items-center bg-light" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex justify-content-between">
+                            <div class="toast-body"></div>
+                            <button type="button" class="btn-close me-2 m-auto shadow-none" data-coreui-dismiss="toast" aria-label="Close"></button>
+                        </div>
                     </div>
-                <?php } ?>    
+                </div>
 
                 <?php echo csrf_field(); ?>
 

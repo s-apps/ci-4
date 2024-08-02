@@ -13,6 +13,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <title>EDS</title>
         <meta name="theme-color" content="#ffffff">
+<!--         <meta name="csrf-token" content="<?= csrf_hash() ?>">
+        <meta name="csrf-name" content="<?= csrf_token() ?>"> -->
         <!-- Main styles for this application-->
         <link href="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.css');?>" rel="stylesheet"> 
         <link href="<?php echo base_url('assets/css/style.css');?>" rel="stylesheet">
@@ -20,7 +22,9 @@
         <link href="<?php echo base_url('assets/js/jquery-ui/jquery-ui.min.css');?>" rel="stylesheet">
     </head>
     <body style="overflow-y: scroll;">
+
     
+
     <?php echo $this->include('App\Views\layout\sidebar'); ?>
 
     <div class="wrapper d-flex flex-column min-vh-100">
@@ -57,7 +61,6 @@
                 echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
             break;   
             case 'order':
-                echo "<script>var teste = 'teste1'; </script>";
                 echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
             break;    
             default:

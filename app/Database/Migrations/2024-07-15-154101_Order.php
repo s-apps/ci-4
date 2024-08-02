@@ -29,10 +29,6 @@ class Order extends Migration
                 'type'       => 'DATE',
                 'null' => true
             ],
-            'due_date' => [
-                'type'       => 'DATE',
-                'null' => true
-            ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP')

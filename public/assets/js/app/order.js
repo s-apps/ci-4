@@ -4,11 +4,11 @@ $(function () {
 
     var $btn_add_product = $('#add');
     var $table = $("#table");
-    var $alert = $(".alert");
 
-    $(".btn-close").on("click", function(){
-        $alert.hide();
-    })
+    if ($(".toast").length) {
+        var toastElement = $(".toast");
+        var toast = new coreui.Toast(toastElement);
+    }
 
     $btn_add_product.on("click", function () {
         add_product();
@@ -210,16 +210,16 @@ $(function () {
         const customer_id = $("#customer_id").val();
         const amount = $("#amount").val();
 
-        /* if (($("#customer_id").val() == "") || ($("#product_id").val() == "") || ($("#amount").val() == "") || (parseInt($("#amount").val()) < 1)) {
-            $alert.show();
+        if ((customer_id == "") || (product_id == "") || (amount == "") || (parseInt(amount) < 1)) {
+            $(".toast-body").html("Informe o cliente, o produto e a quantidade");
+            toast.show();
             return;
-        } */
+        }
 
         $.get({
             url: `${base_url}/order/add/product/${product_id}/${customer_id}/${amount}`,
             dataType: "json",
             success: function(data) {
-                console.log(data)
                 const tableData = $table.bootstrapTable("getData");
                 const filteredData = tableData.filter(function(item) {
                     return item.product_id === product_id;
@@ -236,6 +236,10 @@ $(function () {
                             total: data.product.total
                         }
                     });
+                    $("#product").focus();
+                } else {
+                    $(".toast-body").html(`<strong>${data.product.description} ${data.product.package_list_description}</strong><br/>já foi adicionado ao pedido`)
+                    toast.show();
                 }
             },    
             complete: function () {
@@ -245,5 +249,46 @@ $(function () {
             }
         });
     }
+
+    $("#order-form").on("submit", function(e){
+        e.preventDefault();
+
+        //const csrfName = $('meta[name="csrf-name"]').attr('content'); // CSRF token name
+        //const csrfHash = $('meta[name="csrf-token"]').attr('content'); // CSRF hash
+        const csrfName = "csrf_test_name";
+        const csrfHash = $("input[name=csrf_test_name]").val();
+        const products = $table.bootstrapTable("getData");
+
+        const formData = new FormData();
+
+        products.forEach((product, index) => {
+            for (const key in product) {
+                if (product.hasOwnProperty(key)) {
+                    formData.append(`products[${index}][${key}]`, product[key]);
+                }
+            }
+        });
+
+        formData.append("number", $("#number").val());
+        formData.append("request_date", $("#request_date").val());
+        formData.append(csrfName, csrfHash);
+
+        $.ajax({
+            url: `${base_url}/order/save`, // Replace with your PHP file path
+            type: "POST",
+            data: formData,
+            contentType: false, // Prevent jQuery from setting the Content-Type header
+            processData: false, // Prevent jQuery from processing the data
+            success: function(response) {
+                console.log(response);
+                alert('Form submitted successfully!');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr, status, error);
+                alert('Form submission failed!');
+            }
+        });
+        
+    });
 
 });

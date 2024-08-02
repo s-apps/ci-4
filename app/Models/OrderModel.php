@@ -16,7 +16,6 @@ class OrderModel extends Model
         'order_id',
         'number',
         'request_date',
-        'due_date',
         'customer_id',
         'created_at',
         'updated_at'
