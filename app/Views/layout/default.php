@@ -47,6 +47,7 @@
     <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-table/locale/bootstrap-table-pt-BR.min.js');?>"></script>
     <script src="<?php echo base_url('assets/js/jquery.inputmask.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/app/config.js');?>"></script>
 
     <?php
         $uri = service('uri');
@@ -61,7 +62,9 @@
                 echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
             break;   
             case 'order':
-                echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
+                if ($uri->getSegment(2) === 'create') 
+                    echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
+                echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
             break;    
             default:
                 echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';

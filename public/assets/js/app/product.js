@@ -1,5 +1,3 @@
-const base_url = "http://edgar.local/";
-
 $("#cost_value, #sale_value, #resale_value").inputmask({
     alias:          "decimal",
     groupSeparator: ".",

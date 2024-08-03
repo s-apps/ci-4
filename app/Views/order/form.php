@@ -28,9 +28,13 @@
 
                 <div class="toast-container top-50 start-50 translate-middle">
                     <div class="toast align-items-center bg-light" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="d-flex justify-content-between">
-                            <div class="toast-body"></div>
-                            <button type="button" class="btn-close me-2 m-auto shadow-none" data-coreui-dismiss="toast" aria-label="Close"></button>
+                        <div class="row g-2">
+                            <div class="col-10">
+                                <div class="toast-body"></div>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn-close ms-4 me-2 m-auto shadow-none" data-coreui-dismiss="toast" aria-label="Close"></button>
+                            </div>
                         </div>
                     </div>
                 </div>

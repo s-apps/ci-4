@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CustomerModel;
+use App\Models\OrderItemModel;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
 
@@ -13,17 +14,49 @@ class OrderController extends BaseController
     private $model;
     private $modelCustomer;
     private $modelProduct;
+    private $modelOrderItem;
 
     public function __construct()
     {
         $this->model = model(OrderModel::class);
         $this->modelCustomer = model(CustomerModel::class);
         $this->modelProduct = model(ProductModel::class);
+        $this->modelOrderItem = model(OrderItemModel::class);
     }
 
     public function index()
     {
         return view('order/list');
+    }
+
+    public function list()
+    {
+        $sort = $this->request->getGet('sort');
+        $order = $this->request->getGet('order');
+        $limit = $this->request->getGet('limit');
+        $offset = $this->request->getGet('offset') ?? 0;
+        $search = $this->request->getGet('search');
+
+        $this->model->select('order.*, customer.customer_id, customer.name as customer_name, customer.type as customer_type');
+        $this->model->join('customer', 'order.customer_id = customer.customer_id');
+
+        if (!empty($search)) {
+            $this->model->like('order.number' , $search, 'both', null, false);
+            $this->model->orLike('order.request_date' , $search, 'both', null, false);
+            $this->model->orLike('customer.name' , $search, 'both', null, false);
+            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
+            $total = $this->model->countAllResults();
+        } else {
+            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
+            $total = $this->model->countAllResults();
+        }
+
+        echo json_encode(
+            [
+                'total' => $total, 
+                'rows' => $rows
+            ]
+        );
     }
 
     public function create()
@@ -69,40 +102,95 @@ class OrderController extends BaseController
     {
         helper('form');
 
-        /* $number = $this->request->getPost('number');
-        $request_date = $this->request->getPost('request_date');
-        $products = $this->request->getPost('products'); */
-
-
-
-        /* foreach ($products as $product) {
-            var_dump($product['product_id']);
-        }
-        exit; */
-
         $data = $this->request->getPost(
             [
+                'customer_id',
+                'number',
+                'request_date',
                 'products'
             ]
         );
 
-        $data['products'][1]['product_id'] = null;
-
         if (! $this->validateData($data, [
+            'customer_id' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo cliente é obrigatório'
+                ]
+            ],
+            'number' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo número é obrigatório'
+                ]
+            ],
+            'request_date' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo data do pedido é obrigatório'
+                ]
+            ],
             'products.*.product_id' => [
                 'rules' => 'required|integer',
                 'errors' => [
                     'required' => 'O campo ID do produto é obrigatório',
                     'integer' => 'O campo ID do produto é um número inteiro'
                 ]    
+            ],
+            'products.*.amount' => [
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => 'O campo quantidade é obrigatório',
+                    'integer' => 'O campo quantidade é um número inteiro'
+                ]    
+            ],
+            'products.*.description' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'O campo descrição é obrigatório',
+                ]    
+            ],
+            'products.*.unitary_value' => [
+                'rules' => 'required|decimal',
+                'errors' => [
+                    'required' => 'O campo valor unitário é obrigatório',
+                    'decimal' => 'O campo valor unitário é um número decimal'
+                ]    
             ]
         ]))
         {
-           /*  echo json_encode(['errors' => $this->validator->getErrors()]); */
-           return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()]);
+           return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()])->setStatusCode(400);
         }
-        
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!']);
+
+        try {
+
+            $post = $this->validator->getValidated();
+
+            $data_tmp = explode('/',$post['request_date']);
+            $d_data = $data_tmp[0];
+            $m_data = $data_tmp[1];
+            $y_data = $data_tmp[2];
+            
+            $this->model->insert([
+                'customer_id' => $post['customer_id'],
+                'number' => $post['number'],
+                'request_date' => $y_data.'-'.$m_data.'-'.$d_data,
+                'created_at' =>  date('Y-m-d H:i:s')
+            ]);
+
+            $order_id = $this->model->insertId();
+            
+            foreach ($data['products'] as &$product) {
+                $product['order_id'] = $order_id;
+            }
+
+            $this->modelOrderItem->insertBatch($data['products']);
+
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!'])->setStatusCode(200);
+            
+        } catch (\Exception $e) {
+            
+        }
     }
 
 }

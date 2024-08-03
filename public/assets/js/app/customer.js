@@ -1,5 +1,3 @@
-const base_url = "http://edgar.local/";
-
 $(function () {
     $('#table').bootstrapTable({
         url: "customer/list",

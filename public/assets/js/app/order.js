@@ -1,10 +1,8 @@
-const base_url = "http://edgar.local";
-
 $(function () {
 
     var $btn_add_product = $('#add');
     var $table = $("#table");
-
+    
     if ($(".toast").length) {
         var toastElement = $(".toast");
         var toast = new coreui.Toast(toastElement);
@@ -19,6 +17,11 @@ $(function () {
             {
                 field: "product_id",
                 title: "ID",
+                visible: false
+            },
+            {
+                field: "package_id",
+                title: "Embalagem",
                 visible: false
             },
             { 
@@ -40,6 +43,11 @@ $(function () {
                        parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     ].join('')
                 }
+            },
+            {
+                field: "cost_value",
+                title: "Custo",
+                visible: false
             },
             {
                 field: "total",
@@ -220,6 +228,7 @@ $(function () {
             url: `${base_url}/order/add/product/${product_id}/${customer_id}/${amount}`,
             dataType: "json",
             success: function(data) {
+                console.log(data.product.package_id)
                 const tableData = $table.bootstrapTable("getData");
                 const filteredData = tableData.filter(function(item) {
                     return item.product_id === product_id;
@@ -230,9 +239,11 @@ $(function () {
                         index: 0,
                         row: {
                             product_id: product_id,
+                            package_id: data.product.package_id,
                             amount: amount,
                             description: `${data.product.description} ${data.product.package_list_description}`,
                             unitary_value: data.product.unitary_value,
+                            cost_value: data.product.cost_value,
                             total: data.product.total
                         }
                     });
@@ -252,43 +263,51 @@ $(function () {
 
     $("#order-form").on("submit", function(e){
         e.preventDefault();
-
+    
         //const csrfName = $('meta[name="csrf-name"]').attr('content'); // CSRF token name
         //const csrfHash = $('meta[name="csrf-token"]').attr('content'); // CSRF hash
         const csrfName = "csrf_test_name";
         const csrfHash = $("input[name=csrf_test_name]").val();
-        const products = $table.bootstrapTable("getData");
-
-        const formData = new FormData();
-
-        products.forEach((product, index) => {
-            for (const key in product) {
-                if (product.hasOwnProperty(key)) {
-                    formData.append(`products[${index}][${key}]`, product[key]);
+        const products = $("#table").bootstrapTable("getData");
+    
+        if (! products.length) {
+            $(".toast-body").html("Nenhum produto foi adicionado ao pedido");
+            toast.show();
+            return;
+        } else {
+            const formData = new FormData();
+    
+            products.forEach((product, index) => {
+                for (const key in product) {
+                    if (product.hasOwnProperty(key)) {
+                        formData.append(`products[${index}][${key}]`, product[key]);
+                    }
                 }
-            }
-        });
-
-        formData.append("number", $("#number").val());
-        formData.append("request_date", $("#request_date").val());
-        formData.append(csrfName, csrfHash);
-
-        $.ajax({
-            url: `${base_url}/order/save`, // Replace with your PHP file path
-            type: "POST",
-            data: formData,
-            contentType: false, // Prevent jQuery from setting the Content-Type header
-            processData: false, // Prevent jQuery from processing the data
-            success: function(response) {
-                console.log(response);
-                alert('Form submitted successfully!');
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr, status, error);
-                alert('Form submission failed!');
-            }
-        });
-        
+            });
+    
+            formData.append("customer_id", $("#customer_id").val());
+            formData.append("number", $("#number").val());
+            formData.append("request_date", $("#request_date").val());
+            formData.append(csrfName, csrfHash);
+    
+            $.ajax({
+                url: `${base_url}/order/save`, // Replace with your PHP file path
+                type: "POST",
+                data: formData,
+                contentType: false, // Prevent jQuery from setting the Content-Type header
+                processData: false, // Prevent jQuery from processing the data
+                success: function(response) {
+                    console.log(response);
+                    alert('Form submitted successfully!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr, status, error);
+                    alert('Form submission failed!');
+                }
+            });
+        }
     });
-
+    
 });
+
+
