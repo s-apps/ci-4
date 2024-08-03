@@ -36,12 +36,13 @@ class PackageController extends BaseController
         $this->model->join('unit_measurement', 'unit_measurement.measurement_id = package.unit_measurement_id');
 
         if (!empty($search)) {
-            $rows = $this->model->like('package.description' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->like('package.description' , $search, 'both', null, false)->countAllResults();
-        } else {
-            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->countAllResults();
-        }   
+            $this->model->like('package.description' , $search, 'both', null, false);
+        }
+        
+        $countBuilder = clone $this->model;
+
+        $total = $countBuilder->countAllResults(false);
+        $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
 
         echo json_encode(
             [

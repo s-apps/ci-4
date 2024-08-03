@@ -38,15 +38,30 @@ $(function () {
             },
             {
                 field: 'cost_value',
-                title: 'Custo'
+                title: 'Custo',
+                formatter: function cost_valueFormatter(value) {
+                    return [
+                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    ].join('')
+                }
             },
             {
                 field: 'sale_value',
-                title: 'Venda'
+                title: 'Venda',
+                formatter: function sale_valueFormatter(value) {
+                    return [
+                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    ].join('')
+                }
             },
             {
                 field: 'resale_value',
-                title: 'Revenda'
+                title: 'Revenda',
+                formatter: function resale_valueFormatter(value) {
+                    return [
+                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    ].join('')
+                }
             },
             {
                 field: "action",

@@ -11,8 +11,8 @@ $(function(){
         paginationLoop: false,
         paginationParts: ['pageInfo', 'pageList'],
         pageSize: 50,
-        sortName: "request_date",
-        sortOrder: "asc",
+        sortName: "order_id",
+        sortOrder: "desc",
         toolbar: "#table-toolbar",
         columns: [
             { 
@@ -27,7 +27,8 @@ $(function(){
             },
             {
                 field: "number",
-                title: "Número"
+                title: "Número",
+                searchable: true
             },
             {
                 field: "customer_name",

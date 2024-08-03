@@ -42,14 +42,13 @@ class OrderController extends BaseController
 
         if (!empty($search)) {
             $this->model->like('order.number' , $search, 'both', null, false);
-            $this->model->orLike('order.request_date' , $search, 'both', null, false);
             $this->model->orLike('customer.name' , $search, 'both', null, false);
-            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->countAllResults();
-        } else {
-            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->countAllResults();
         }
+
+        $countBuilder = clone $this->model;
+
+        $total = $countBuilder->countAllResults(false);
+        $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
 
         echo json_encode(
             [
@@ -57,6 +56,13 @@ class OrderController extends BaseController
                 'rows' => $rows
             ]
         );
+    }
+
+    public function edit($id)
+    {
+        helper('form');
+
+        return view('order/form');
     }
 
     public function create()

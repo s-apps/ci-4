@@ -45,6 +45,8 @@ $routes->group('product', static function ($routes) {
 $routes->group('order', static function ($routes) {
     $routes->get('/', [OrderController::class, 'index']);
     $routes->get('create', [OrderController::class, 'create']);
+    $routes->get('(:num)/edit', [OrderController::class, 'edit']);
+    $routes->get('delete/(:num)', [OrderController::class, 'delete']);
     $routes->get('create_customer_list', [OrderController::class, 'create_customer_list']);
     $routes->get('create_product_list', [OrderController::class, 'create_product_list']);
     $routes->get('add/product/(:num)/(:num)/(:num)',  [OrderController::class, 'add_product']);

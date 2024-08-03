@@ -26,13 +26,15 @@ class CustomerController extends BaseController
         $limit = $this->request->getGet('limit');
         $offset = $this->request->getGet('offset') ?? 0;
         $search = $this->request->getGet('search');
+
         if (!empty($search)) {
-            $rows = $this->model->like('name' , $search, 'both', null, false)->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->like('name' , $search, 'both', null, false)->countAllResults();
-        } else {
-            $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
-            $total = $this->model->countAllResults();
+            $this->model->like('name' , $search, 'both', null, false);
         }
+
+        $countBuilder = clone $this->model;
+
+        $total = $countBuilder->countAllResults(false);
+        $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
 
         echo json_encode(
             [
