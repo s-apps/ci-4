@@ -62,9 +62,11 @@
                 echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
             break;   
             case 'order':
-                if ($uri->getSegment(2) === 'create') 
+                if ($uri->getSegment(2) === '') {
+                    echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
+                } else {    
                     echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
-                echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
+                }
             break;    
             default:
                 echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';

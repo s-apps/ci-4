@@ -16,6 +16,7 @@ class OrderItemModel extends Model
         'item_id',
         'order_id',
         'product_id',
+        'item_id',
         'package_id',
         'amount',
         'description',

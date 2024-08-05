@@ -2,7 +2,7 @@ $(function(){
     var $table = $("#table-order-list");
 
     $table.bootstrapTable({
-        url: "order/list",
+        url: `${base_url}/order/list`,
         sidePagination: "server",
         queryParamsType: "limit",
         queryParams: queryParams,

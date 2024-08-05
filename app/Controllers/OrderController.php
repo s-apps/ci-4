@@ -62,7 +62,11 @@ class OrderController extends BaseController
     {
         helper('form');
 
-        return view('order/form');
+        $this->model->select('order.*, customer.customer_id, customer.name as customer_name, customer.type as customer_type');
+        $this->model->join('customer', 'order.customer_id = customer.customer_id');
+        $order = $this->model->asObject()->find($id);
+        $order->customer_name .= $order->customer_type === 'resale' ? ' - REVENDA' : ' - VENDA';
+        return view('order/form', ['order' => $order]);
     }
 
     public function create()
@@ -90,6 +94,12 @@ class OrderController extends BaseController
         return $this->response->setJSON($products);
     }
 
+    public function create_products_edit_list($order_id)
+    {
+        $products = $this->modelOrderItem->asObject()->where('order_id', $order_id)->findAll();
+        return $this->response->setJSON(['rows' => $products]);
+    }
+
     public function add_product($product_id = null, $customer_id = null, $amount = null)
     {
         $this->modelProduct->select('product.*, package.list_description as package_list_description');
@@ -110,6 +120,7 @@ class OrderController extends BaseController
 
         $data = $this->request->getPost(
             [
+                'order_id',
                 'customer_id',
                 'number',
                 'request_date',
@@ -118,6 +129,12 @@ class OrderController extends BaseController
         );
 
         if (! $this->validateData($data, [
+            'order_id' => [
+                'rules' => 'max_length[4]',
+                'errors' => [
+                     'max_length' => 'O campo ID deve possuir no máximo 4 caracteres'
+                ]
+            ],
             'customer_id' => [
                 'rules' => 'required',
                 'errors' => [
@@ -176,26 +193,57 @@ class OrderController extends BaseController
             $d_data = $data_tmp[0];
             $m_data = $data_tmp[1];
             $y_data = $data_tmp[2];
-            
-            $this->model->insert([
-                'customer_id' => $post['customer_id'],
-                'number' => $post['number'],
-                'request_date' => $y_data.'-'.$m_data.'-'.$d_data,
-                'created_at' =>  date('Y-m-d H:i:s')
-            ]);
 
-            $order_id = $this->model->insertId();
+            if (empty($post['order_id'])) {
+                $this->model->insert([
+                    'customer_id' => $post['customer_id'],
+                    'number' => $post['number'],
+                    'request_date' => $y_data.'-'.$m_data.'-'.$d_data,
+                    'created_at' =>  date('Y-m-d H:i:s')
+                ]);
+    
+                $order_id = $this->model->insertId();
+                
+                foreach ($data['products'] as &$product) {
+                    $product['order_id'] = $order_id;
+                }
+    
+                $this->modelOrderItem->insertBatch($data['products']);
+
+            } else { 
+
+                $this->model->set('customer_id', $post['customer_id']);
+                $this->model->set('request_date', $y_data.'-'.$m_data.'-'.$d_data);
+                $this->model->set('updated_at',  date('Y-m-d H:i:s'));
+                $this->model->where('order_id', $post['order_id']);
+                $this->model->update();
+
+                $products_for_insert = [];
+                $products_for_update = [];
+
+                foreach ($data['products'] as $product) {
+                    if (empty($product['item_id'])) {
+                        $product['order_id'] = $post['order_id'];
+                        $products_for_insert[] = $product;
+                    } else {
+                        $products_for_update[] = $product;
+                    }
+                }
+
+                if (!empty($products_for_insert)) {
+                    $this->modelOrderItem->insertBatch($products_for_insert);
+                }
             
-            foreach ($data['products'] as &$product) {
-                $product['order_id'] = $order_id;
+                if (!empty($products_for_update)) {
+                    $this->modelOrderItem->updateBatch($products_for_update, 'item_id');
+                }
+
             }
-
-            $this->modelOrderItem->insertBatch($data['products']);
-
+            
             return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!'])->setStatusCode(200);
             
         } catch (\Exception $e) {
-            
+            log_message('error', $e->getMessage());
         }
     }
 

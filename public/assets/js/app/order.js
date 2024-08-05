@@ -12,120 +12,13 @@ $(function () {
         add_product();
     });
 
-    $table.bootstrapTable({
-        columns: [
-            {
-                field: "product_id",
-                title: "ID",
-                visible: false
-            },
-            {
-                field: "package_id",
-                title: "Embalagem",
-                visible: false
-            },
-            { 
-                field: "amount", 
-                title: "Qtde", 
-                align: "right",
-                widthUnit: "%",
-                width: 5,
-            },
-            {
-                field: "description",
-                title: "Descrição"
-            },
-            {
-                field: "unitary_value",
-                title: "Unitário",
-                formatter: function unitaryValueFormatter(value) {
-                    return [
-                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    ].join('')
-                }
-            },
-            {
-                field: "cost_value",
-                title: "Custo",
-                visible: false
-            },
-            {
-                field: "total",
-                title: "Total",
-                formatter: function totalValueFormatter(value) {
-                    return [
-                       parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    ].join('')
-                }
-            },
-            {
-                field: "action",
-                title: "Ações",
-                align: "center",
-                widthUnit: "%",
-                width: 15,
-                clickToSelect: false,
-                formatter: function actionFormatter(value) {
-                    return [
-                        `<a class="quantify-add btn btn-primary btn-sm text-white me-2" href="javascript:" title="add quantify">
-                            <svg class="icon">
-                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-plus"></use>
-                            </svg>
-                        </a>
-                        <a class="quantify-subtract btn btn-warning btn-sm text-white me-2" href="javascript:" title="subtract quantify">
-                            <svg class="icon">
-                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-minus"></use>
-                            </svg>
-                        </a>
-                        <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
-                            <svg class="icon">
-                                <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
-                            </svg>
-                        </a>                            
-                        `
-                    ].join('')
-                },
-                events: {
-                    "click .quantify-add": function(e, value, row) {
-                        $table.bootstrapTable('updateByUniqueId', {
-                            id: row.product_id,
-                            row: {
-                              amount: (parseInt(row.amount) + 1).toString(),
-                              total: ((parseInt(row.amount) + 1) * parseFloat(row.unitary_value)).toString()
-                            }
-                        });
-                    },
-                    "click .quantify-subtract": function(e, value, row) {
-                        if (parseInt(row.amount) > 1) {
-                            $table.bootstrapTable('updateByUniqueId', {
-                                id: row.product_id,
-                                row: {
-                                  amount: (parseInt(row.amount) - 1).toString(),
-                                  total: ((parseInt(row.amount) - 1) * parseFloat(row.unitary_value)).toString()
-                                }
-                            });
-                        }
-                    },
-                    "click .delete": function(e, value, row) {
-                        $table.bootstrapTable('remove', {
-                            field: 'product_id', 
-                            values: row.product_id
-                        });
-                    }
-                }
-            }
-        ],
-        theadClasses: "table-light",
-        classes: "table table-bordered table-sm table-hover",
-    });
+    if (! $("#order_id").val().length) {
+        create_products_table();
+    } else {
+        edit_products_table()
+    }        
 
     $("#request_date").inputmask("datetime", {
-        inputFormat: "dd/mm/yyyy",
-        placeholder: 'dd/mm/aaaa',
-        clearIncomplete: true
-    });
-
-    $("#due_date").inputmask("datetime", {
         inputFormat: "dd/mm/yyyy",
         placeholder: 'dd/mm/aaaa',
         clearIncomplete: true
@@ -212,6 +105,56 @@ $(function () {
         $("#product-help").text("");
     });
 
+    $("#order-form").on("submit", function(e){
+        e.preventDefault();
+    
+        //const csrfName = $('meta[name="csrf-name"]').attr('content'); // CSRF token name
+        //const csrfHash = $('meta[name="csrf-token"]').attr('content'); // CSRF hash
+        const csrfName = "csrf_test_name";
+        const csrfHash = $("input[name=csrf_test_name]").val();
+        const products = $("#table").bootstrapTable("getData");
+
+        if (! products.length) {
+            $(".toast-body").html("Nenhum produto foi adicionado ao pedido");
+            toast.show();
+            return;
+        } else {
+            const formData = new FormData();
+
+            products.forEach((product, index) => {
+                
+                delete product.total;
+                
+                for (const key in product) {
+                    if (product.hasOwnProperty(key)) {
+                        formData.append(`products[${index}][${key}]`, product[key]);
+                    }
+                }
+            });
+
+            formData.append("order_id", $("#order_id").val());
+            formData.append("customer_id", $("#customer_id").val());
+            formData.append("number", $("#number").val());
+            formData.append("request_date", $("#request_date").val());
+            formData.append(csrfName, csrfHash);
+    
+            $.ajax({
+                url: `${base_url}/order/save`, // Replace with your PHP file path
+                type: "POST",
+                data: formData,
+                contentType: false, // Prevent jQuery from setting the Content-Type header
+                processData: false, // Prevent jQuery from processing the data
+                success: function(response) {
+                    console.log(response);
+                    alert('Form submitted successfully!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr, status, error);
+                    alert('Form submission failed!');
+                }
+            });
+        }
+    });
 
     function add_product() {
         const product_id = $("#product_id").val();
@@ -261,52 +204,232 @@ $(function () {
         });
     }
 
-    $("#order-form").on("submit", function(e){
-        e.preventDefault();
-    
-        //const csrfName = $('meta[name="csrf-name"]').attr('content'); // CSRF token name
-        //const csrfHash = $('meta[name="csrf-token"]').attr('content'); // CSRF hash
-        const csrfName = "csrf_test_name";
-        const csrfHash = $("input[name=csrf_test_name]").val();
-        const products = $("#table").bootstrapTable("getData");
-    
-        if (! products.length) {
-            $(".toast-body").html("Nenhum produto foi adicionado ao pedido");
-            toast.show();
-            return;
-        } else {
-            const formData = new FormData();
-    
-            products.forEach((product, index) => {
-                for (const key in product) {
-                    if (product.hasOwnProperty(key)) {
-                        formData.append(`products[${index}][${key}]`, product[key]);
+    function create_products_table() {
+        $table.bootstrapTable({
+            columns: [
+                {
+                    field: "product_id",
+                    title: "ID",
+                    visible: false
+                },
+                {
+                    field: "package_id",
+                    title: "Embalagem",
+                    visible: false
+                },
+                { 
+                    field: "amount", 
+                    title: "Qtde", 
+                    align: "right",
+                    widthUnit: "%",
+                    width: 5,
+                },
+                {
+                    field: "description",
+                    title: "Descrição"
+                },
+                {
+                    field: "unitary_value",
+                    title: "Unitário",
+                    formatter: function unitaryValueFormatter(value) {
+                        return [
+                        parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        ].join('')
+                    }
+                },
+                {
+                    field: "cost_value",
+                    title: "Custo",
+                    visible: false
+                },
+                {
+                    field: "total",
+                    title: "Total",
+                    formatter: function totalValueFormatter(value) {
+                        return [
+                        parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        ].join('')
+                    }
+                },
+                {
+                    field: "action",
+                    title: "Ações",
+                    align: "center",
+                    widthUnit: "%",
+                    width: 15,
+                    clickToSelect: false,
+                    formatter: function actionFormatter(value) {
+                        return [
+                            `<a class="quantify-add btn btn-primary btn-sm text-white me-2" href="javascript:" title="add quantify">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-plus"></use>
+                                </svg>
+                            </a>
+                            <a class="quantify-subtract btn btn-warning btn-sm text-white me-2" href="javascript:" title="subtract quantify">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-minus"></use>
+                                </svg>
+                            </a>
+                            <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
+                                </svg>
+                            </a>                            
+                            `
+                        ].join('')
+                    },
+                    events: {
+                        "click .quantify-add": function(e, value, row) {
+                            $table.bootstrapTable('updateByUniqueId', {
+                                id: row.product_id,
+                                row: {
+                                amount: (parseInt(row.amount) + 1).toString(),
+                                total: ((parseInt(row.amount) + 1) * parseFloat(row.unitary_value)).toString()
+                                }
+                            });
+                        },
+                        "click .quantify-subtract": function(e, value, row) {
+                            if (parseInt(row.amount) > 1) {
+                                $table.bootstrapTable('updateByUniqueId', {
+                                    id: row.product_id,
+                                    row: {
+                                    amount: (parseInt(row.amount) - 1).toString(),
+                                    total: ((parseInt(row.amount) - 1) * parseFloat(row.unitary_value)).toString()
+                                    }
+                                });
+                            }
+                        },
+                        "click .delete": function(e, value, row) {
+                            $table.bootstrapTable('remove', {
+                                field: 'product_id', 
+                                values: row.product_id
+                            });
+                        }
                     }
                 }
-            });
-    
-            formData.append("customer_id", $("#customer_id").val());
-            formData.append("number", $("#number").val());
-            formData.append("request_date", $("#request_date").val());
-            formData.append(csrfName, csrfHash);
-    
-            $.ajax({
-                url: `${base_url}/order/save`, // Replace with your PHP file path
-                type: "POST",
-                data: formData,
-                contentType: false, // Prevent jQuery from setting the Content-Type header
-                processData: false, // Prevent jQuery from processing the data
-                success: function(response) {
-                    console.log(response);
-                    alert('Form submitted successfully!');
+            ],
+            theadClasses: "table-light",
+            classes: "table table-bordered table-sm table-hover",
+        }); 
+    }
+
+    function edit_products_table() {
+        $table.bootstrapTable({
+            url: `${base_url}/order/${$("#order_id").val()}/create_products_edit_list`,
+            search: false,
+            pagination: false,
+            columns: [
+                {
+                    field: "item_id",
+                    title: "Item ID",
+                    visible: false
                 },
-                error: function(xhr, status, error) {
-                    console.error(xhr, status, error);
-                    alert('Form submission failed!');
+                {
+                    field: "product_id",
+                    title: "ID",
+                    visible: false
+                },
+                {
+                    field: "package_id",
+                    title: "Embalagem",
+                    visible: false
+                },
+                { 
+                    field: "amount", 
+                    title: "Qtde", 
+                    align: "right",
+                    widthUnit: "%",
+                    width: 5,
+                },
+                {
+                    field: "description",
+                    title: "Descrição"
+                },
+                {
+                    field: "unitary_value",
+                    title: "Unitário",
+                    formatter: function unitaryValueFormatter(value) {
+                        return [
+                            parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        ].join('')
+                    }
+                },
+                {
+                    field: "cost_value",
+                    title: "Custo",
+                    visible: false
+                },
+                {
+                    field: "total",
+                    title: "Total",
+                    formatter: function totalValueFormatter(value, row) {
+                        return [
+                            parseFloat(row.amount * row.unitary_value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        ].join('')
+                    }
+                },
+                {
+                    field: "action",
+                    title: "Ações",
+                    align: "center",
+                    widthUnit: "%",
+                    width: 15,
+                    clickToSelect: false,
+                    formatter: function actionFormatter(value) {
+                        return [
+                            `<a class="quantify-add btn btn-primary btn-sm text-white me-2" href="javascript:" title="add quantify">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-plus"></use>
+                                </svg>
+                            </a>
+                            <a class="quantify-subtract btn btn-warning btn-sm text-white me-2" href="javascript:" title="subtract quantify">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-minus"></use>
+                                </svg>
+                            </a>
+                            <a class="delete btn btn-danger btn-sm text-white" href="javascript:" title="Delete Item">
+                                <svg class="icon">
+                                    <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-trash"></use>
+                                </svg>
+                            </a>                            
+                            `
+                        ].join('')
+                    },
+                    events: {
+                        "click .quantify-add": function(e, value, row) {
+                            $table.bootstrapTable('updateByUniqueId', {
+                                id: row.product_id,
+                                row: {
+                                amount: (parseInt(row.amount) + 1).toString(),
+                                total: ((parseInt(row.amount) + 1) * parseFloat(row.unitary_value)).toString()
+                                }
+                            });
+                        },
+                        "click .quantify-subtract": function(e, value, row) {
+                            if (parseInt(row.amount) > 1) {
+                                $table.bootstrapTable('updateByUniqueId', {
+                                    id: row.product_id,
+                                    row: {
+                                    amount: (parseInt(row.amount) - 1).toString(),
+                                    total: ((parseInt(row.amount) - 1) * parseFloat(row.unitary_value)).toString()
+                                    }
+                                });
+                            }
+                        },
+                        "click .delete": function(e, value, row) {
+                            $table.bootstrapTable('remove', {
+                                field: 'product_id', 
+                                values: row.product_id
+                            });
+                        }
+                    }
                 }
-            });
-        }
-    });
+            ],
+            theadClasses: "table-light",
+            classes: "table table-bordered table-sm table-hover",
+        }); 
+    } 
+
     
 });
 

@@ -46,17 +46,17 @@
                 <div class="row g-3">
                     <div class="col-4">
                     <label for="number" class="form-label">Número <sup class="text-danger">*</sup></label>
-                       <input type="text" class="form-control text-uppercase shadow-none" id="number" name="number" value="<?php echo (empty($order->number)) ? date('dmYHms') : set_value('number'); ?>" autocomplete="off" readonly>
+                       <input type="text" class="form-control text-uppercase shadow-none" id="number" name="number" value="<?php echo (empty($order->number)) ? date('dmYHms') : $order->number ; ?>" autocomplete="off" readonly>
                     </div>
                     <div class="col-4">
                         <label for="request_date" class="form-label">Data do pedido <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase shadow-none" id="request_date" name="request_date" value="<?php echo (empty($order->request_date) ? date('d/m/Y') : set_value('request_date')); ?>" autocomplete="off">
+                        <input type="text" class="form-control text-uppercase shadow-none" id="request_date" name="request_date" value="<?php echo (empty($order->request_date) ? date('d/m/Y') : date("d/m/Y", strtotime($order->request_date))); ?>" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="customer" class="form-label">Cliente <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control text-uppercase shadow-none" id="customer" name="customer" value="<?php echo set_value('customer');?>" autocomplete="off" autofocus>
+                        <input type="text" class="form-control text-uppercase shadow-none" id="customer" name="customer" value="<?php echo (! empty($order->customer_name)) ? $order->customer_name : set_value('customer');?>" autocomplete="off" autofocus>
                         <div id="customer-help" class="form-text text-danger fw-bold"></div>
-                        <input type="hidden" id="customer_id" name="customer_id" value="">
+                        <input type="hidden" id="customer_id" name="customer_id" value="<?php echo $order->customer_id ?? '';?>">
                     </div>
 
                     <div class="col-12 products-list">
@@ -84,11 +84,11 @@
                                     Cliente, Produto ou Quantidade não foram informados
                                     <button type="button" class="btn-close shadow-none" aria-label="Close"></button>
                                 </div>
+
                                 <table id="table" data-unique-id="product_id"></table>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="card-footer bg-white">

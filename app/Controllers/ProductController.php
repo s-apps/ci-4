@@ -41,7 +41,7 @@ class ProductController extends BaseController
         $this->model->join('unit_measurement', 'package.unit_measurement_id = unit_measurement.measurement_id'); 
 
         if (!empty($search)) {
-            $this->model->like('description' , $search, 'both', null, false);
+            $this->model->like('product.description' , $search, 'both', null, false);
         }
 
         $countBuilder = clone $this->model;
@@ -49,13 +49,6 @@ class ProductController extends BaseController
         $total = $countBuilder->countAllResults(false);
         $rows = $this->model->orderBy($sort, $order)->asObject()->findAll($limit, $offset);
 
-        /* $rows = array_map(function($row) {
-            $row->cost_value = number_format($row->cost_value, 2, ',', '');
-            $row->sale_value = number_format($row->sale_value, 2, ',', '');
-            $row->resale_value = number_format($row->resale_value, 2, ',', '');
-            return $row;
-        }, $rows); */
-        
         echo json_encode(
             [
                 'total' => $total, 
