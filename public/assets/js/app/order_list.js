@@ -53,7 +53,7 @@ $(function(){
                 formatter: function actionFormatter(value) {
                     return [
                         `
-                        <button class="print btn btn-success btn-sm text-white me-2" type="button" title="Print Item">
+                        <button id="report-print" class="print btn btn-success btn-sm text-white me-2" type="button" title="Print Item">
                             <svg class="icon">
                                 <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-print"></use>
                             </svg>
@@ -73,7 +73,7 @@ $(function(){
                 },
                 events: {
                     "click .print": function(e, value, row) {
-                        //window.location.href = `order/${row.order_id}/print`;
+                        generateReport();
                     },
                     "click .edit": function(e, value, row) {
                         window.location.href = `order/${row.order_id}/edit`;

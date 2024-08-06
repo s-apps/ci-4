@@ -47,6 +47,7 @@
     <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.min.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-table/locale/bootstrap-table-pt-BR.min.js');?>"></script>
     <script src="<?php echo base_url('assets/js/jquery.inputmask.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/jspdf/jspdf.umd.min.js');?>"></script>
     <script src="<?php echo base_url('assets/js/app/config.js');?>"></script>
 
     <?php
@@ -62,6 +63,7 @@
                 echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
             break;   
             case 'order':
+                echo '<script src="' . base_url('assets/js/app/report.js') . '"></script>';
                 if ($uri->getSegment(2) === '') {
                     echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
                 } else {    
