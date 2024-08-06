@@ -91,8 +91,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer bg-white">
-                <button type="submit" id="save" class="btn btn-primary" href="<?php echo base_url('order/save');?>">
+            <div class="card-footer bg-white d-flex">
+                <button type="submit" id="save" class="btn btn-primary me-2" href="<?php echo base_url('order/save');?>">
                     <svg class="icon me-1">
                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-save');?>"></use>
                     </svg>
@@ -104,6 +104,12 @@
                     </svg>
                     Cancelar
                 </a>
+                <button id="cancel" class="btn btn-success ms-auto text-white" type="button">
+                    <svg class="icon me-1">
+                        <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-print');?>"></use>
+                    </svg>
+                    Imprimir
+                </button>
             </div>
         </form>
     </div>

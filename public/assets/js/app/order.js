@@ -417,9 +417,24 @@ $(function () {
                             }
                         },
                         "click .delete": function(e, value, row) {
-                            $table.bootstrapTable('remove', {
-                                field: 'product_id', 
-                                values: row.product_id
+                            if ($table.bootstrapTable("getData").length) {
+                                $(".toast-body").text("O pedido deve possuir no mínimo um produto");
+                                toast.show();
+                                return;
+                            }
+
+                            $.get({
+                                url: `${base_url}/order/delete/product/${row.product_id}/${row.order_id}`,
+                                dataType: "json",
+                                success: function(data) {
+                                    console.log(data.product_id)
+                                },    
+                                complete: function () {
+                                    $table.bootstrapTable('remove', {
+                                        field: 'product_id', 
+                                        values: row.product_id
+                                    });
+                                }
                             });
                         }
                     }

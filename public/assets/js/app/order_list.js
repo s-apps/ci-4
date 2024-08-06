@@ -53,11 +53,11 @@ $(function(){
                 formatter: function actionFormatter(value) {
                     return [
                         `
-                        <a class="print btn btn-primary btn-sm text-white me-2" href="javascript:" title="Print Item">
+                        <button class="print btn btn-success btn-sm text-white me-2" type="button" title="Print Item">
                             <svg class="icon">
                                 <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-print"></use>
                             </svg>
-                        </a>
+                        </button>
                         <a class="edit btn btn-warning btn-sm text-white me-2" href="javascript:" title="Edit Item">
                             <svg class="icon">
                                 <use href="${base_url}/assets/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -73,7 +73,7 @@ $(function(){
                 },
                 events: {
                     "click .print": function(e, value, row) {
-                        window.location.href = `order/${row.order_id}/print`;
+                        //window.location.href = `order/${row.order_id}/print`;
                     },
                     "click .edit": function(e, value, row) {
                         window.location.href = `order/${row.order_id}/edit`;
@@ -97,4 +97,5 @@ $(function(){
             search: params.search
         };
     }
+
 });

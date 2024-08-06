@@ -114,6 +114,13 @@ class OrderController extends BaseController
         return $this->response->setJSON(['product'=> $product]);
     }
 
+    public function delete_product($product_id = null, $order_id = null)
+    {
+        var_dump($product_id);
+        $this->modelOrderItem->where(['product_id' => $product_id, 'order_id' => $order_id])->delete();
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Product deleted successfully!', 'product_id' => $product_id])->setStatusCode(200);
+    }
+
     public function save()
     {
         helper('form');
@@ -245,6 +252,13 @@ class OrderController extends BaseController
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
         }
+    }
+
+    public function delete($id)
+    {
+        $this->model->where('order_id', $id)->delete();
+        $this->modelOrderItem->where('order_id', $id)->delete();
+        return redirect()->to('order');     
     }
 
 }

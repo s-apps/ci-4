@@ -60,6 +60,14 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link <?php echo ($uri->getSegment(1) == 'reposrt') ? 'active' : '';?>" href="<?php echo base_url('report');?>">
+                <svg class="nav-icon">
+                    <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-short-text');?>"></use>
+                </svg> 
+                Relatórios
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url('logout');?>">
                 <svg class="nav-icon">
                     <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-exit-to-app');?>"></use>
