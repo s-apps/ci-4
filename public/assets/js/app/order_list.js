@@ -73,7 +73,7 @@ $(function(){
                 },
                 events: {
                     "click .print": function(e, value, row) {
-                        generateReport();
+                        printOrder(row.order_id);
                     },
                     "click .edit": function(e, value, row) {
                         window.location.href = `order/${row.order_id}/edit`;

@@ -54,4 +54,5 @@ $routes->group('order', static function ($routes) {
     $routes->get('delete/product/(:num)/(:num)', [OrderController::class, 'delete_product']);
     $routes->post('save', [OrderController::class, 'save']);
     $routes->get('list', [OrderController::class, 'list']);
+    $routes->get('print/(:num)', [OrderController::class, 'print']);
 });

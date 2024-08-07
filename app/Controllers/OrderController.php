@@ -201,6 +201,8 @@ class OrderController extends BaseController
             $m_data = $data_tmp[1];
             $y_data = $data_tmp[2];
 
+            $order_id = null;
+
             if (empty($post['order_id'])) {
                 $this->model->insert([
                     'customer_id' => $post['customer_id'],
@@ -228,6 +230,8 @@ class OrderController extends BaseController
                 $products_for_insert = [];
                 $products_for_update = [];
 
+                $order_id = $post['order_id'];
+
                 foreach ($data['products'] as $product) {
                     if (empty($product['item_id'])) {
                         $product['order_id'] = $post['order_id'];
@@ -247,7 +251,7 @@ class OrderController extends BaseController
 
             }
             
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!'])->setStatusCode(200);
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Product created successfully!', 'order_id' => $order_id ?? null])->setStatusCode(200);
             
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
@@ -259,6 +263,16 @@ class OrderController extends BaseController
         $this->model->where('order_id', $id)->delete();
         $this->modelOrderItem->where('order_id', $id)->delete();
         return redirect()->to('order');     
+    }
+
+    public function print($order_id)
+    {
+        $this->model->select('order.*, customer.customer_id, customer.name as customer_name, customer.type as customer_type');
+        $this->model->join('customer', 'order.customer_id = customer.customer_id');
+
+        $order = $this->model->find($order_id);
+        $order['products'] = $this->modelOrderItem->where('order_id', $order_id)->findAll();
+        return $this->response->setJSON(['order' => $order])->setStatusCode(200);
     }
 
 }

@@ -76,7 +76,7 @@
                     <svg class="icon me-1">
                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-action-undo');?>"></use>
                     </svg>
-                    Cancelar
+                    Voltar
                 </a>
             </div>
         </form>

@@ -145,8 +145,7 @@ $(function () {
                 contentType: false, // Prevent jQuery from setting the Content-Type header
                 processData: false, // Prevent jQuery from processing the data
                 success: function(response) {
-                    console.log(response);
-                    alert('Form submitted successfully!');
+                    window.location.href = `${base_url}/order/${response.order_id}/edit`
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr, status, error);

@@ -102,14 +102,16 @@
                     <svg class="icon me-1">
                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-action-undo');?>"></use>
                     </svg>
-                    Cancelar
+                    Voltar
                 </a>
-                <button id="cancel" class="btn btn-success ms-auto text-white" type="button">
+                <?php if (!empty($order->order_id)) { ?>
+                <button id="print" class="btn btn-success ms-auto text-white" type="button" onclick="printOrder(<?php echo $order->order_id;?>)">
                     <svg class="icon me-1">
                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-print');?>"></use>
                     </svg>
                     Imprimir
                 </button>
+                <?php } ?>
             </div>
         </form>
     </div>
