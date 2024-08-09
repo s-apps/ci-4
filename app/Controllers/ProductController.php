@@ -24,7 +24,7 @@ class ProductController extends BaseController
 
     public function index()
     {
-        return view('product/list');
+        return view('register/product/list');
     }
 
     public function list()
@@ -63,7 +63,7 @@ class ProductController extends BaseController
 
         $packages = $this->modelPackage->asObject()->findAll();
 
-        return view('product/form', ['packages' => $packages]);
+        return view('register/product/form', ['packages' => $packages]);
     }
 
     public function edit($id)
@@ -77,7 +77,7 @@ class ProductController extends BaseController
         $product->sale_value = number_format($product->sale_value, 2, ',', '');
         $product->resale_value = number_format($product->resale_value, 2, ',', '');
 
-        return view('product/form', ['product' => $product, 'packages' => $packages]);
+        return view('register/product/form', ['product' => $product, 'packages' => $packages]);
     }
 
     private function concate_package_unit_measurement()
@@ -156,7 +156,7 @@ class ProductController extends BaseController
             ])) {
                 // The validation fails, so returns the form.
                 $packages = $this->modelPackage->asObject()->findAll();
-                return view('product/form', ['packages' => $packages,  'errors' => $this->validator->getErrors()]);
+                return view('register/product/form', ['packages' => $packages,  'errors' => $this->validator->getErrors()]);
             }
     
             // Gets the validated data.
@@ -182,7 +182,7 @@ class ProductController extends BaseController
                 $this->model->update();
             }
             
-            return redirect()->to('product');                 
+            return redirect()->to('register/product');                 
 
         } catch (DatabaseException $e) {
             // Log the error or handle it as needed
@@ -191,15 +191,15 @@ class ProductController extends BaseController
             // Check if the error is due to a duplicate key
             if ($e->getCode() == 1062) { // 1062 is the MySQL error code for duplicate key
                 // Redirect to a specific page with an error message
-                return redirect()->to('/product/create')->with('error', ['message' => 'Produto já existe', 'data' => $this->request->getPost()]);
+                return redirect()->to('register/product/create')->with('error', ['message' => 'Produto já existe', 'data' => $this->request->getPost()]);
             }
 
             // Handle other database exceptions
-            return redirect()->to('/product/create')->with('error', 'Database error occurred!');
+            return redirect()->to('register/product/create')->with('error', 'Database error occurred!');
         } catch (\Exception $e) {
             // Handle other exceptions
             log_message('error', $e->getMessage());
-            return redirect()->to('/product/create')->with('error', 'An unexpected error occurred!');
+            return redirect()->to('register/product/create')->with('error', 'An unexpected error occurred!');
         }
    
     }
@@ -207,7 +207,7 @@ class ProductController extends BaseController
     public function delete($id)
     {
         $this->model->where('product_id', $id)->delete();
-        return redirect()->to('product');     
+        return redirect()->to('register/product');     
     }
 
 }

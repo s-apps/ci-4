@@ -20,7 +20,7 @@ class PackageController extends BaseController
 
     public function index()
     {
-        return view('package/list');
+        return view('register/package/list');
     }
 
     public function list()
@@ -58,20 +58,20 @@ class PackageController extends BaseController
 
         $unit_measurements = $this->modelUnitMeasurement->asObject()->findAll();
 
-        return view('package/form', ['unit_measurements' => $unit_measurements]);
+        return view('register/package/form', ['unit_measurements' => $unit_measurements]);
     }
 
     public function edit($id)
     {
         helper('form');
         $unit_measurements = $this->modelUnitMeasurement->asObject()->findAll();
-        return view('package/form', ["package" => $this->model->asObject()->find($id), 'unit_measurements' => $unit_measurements]);
+        return view('register/package/form', ["package" => $this->model->asObject()->find($id), 'unit_measurements' => $unit_measurements]);
     }
 
     public function delete($id)
     {
         $this->model->where('package_id', $id)->delete();
-        return redirect()->to('package');     
+        return redirect()->to('register/package');     
     }
 
     public function save()
@@ -128,7 +128,7 @@ class PackageController extends BaseController
         ])) {
             // The validation fails, so returns the form.
             $unit_measurements = $this->modelUnitMeasurement->asObject()->findAll();
-            return view('package/form', ['unit_measurements' => $unit_measurements,  'errors' => $this->validator->getErrors()]);
+            return view('register/package/form', ['unit_measurements' => $unit_measurements,  'errors' => $this->validator->getErrors()]);
         }
 
         // Gets the validated data.
@@ -151,7 +151,7 @@ class PackageController extends BaseController
             $this->model->update();
         }
 
-        return redirect()->to('package');        
+        return redirect()->to('register/package');        
     }
 
 

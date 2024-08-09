@@ -6,6 +6,8 @@ use App\Controllers\CustomerController;
 use App\Controllers\PackageController;
 use App\Controllers\ProductController;
 use App\Controllers\OrderController;
+use App\Controllers\RegisterController;
+use App\Controllers\ReportController;
 
 /**
  * @var RouteCollection $routes
@@ -14,33 +16,6 @@ use App\Controllers\OrderController;
 service('auth')->routes($routes);
 
 $routes->get('/', [DashboardController::class, 'index']);
-
-$routes->group('customer', static function ($routes) {
-    $routes->get('/', [CustomerController::class, 'index']);
-    $routes->get('create', [CustomerController::class, 'create']);
-    $routes->get('(:num)/edit', [CustomerController::class, 'edit']);
-    $routes->get('delete/(:num)', [CustomerController::class, 'delete']);
-    $routes->post('save', [CustomerController::class, 'save']);
-    $routes->get('list', [CustomerController::class, 'list']);
-});
-
-$routes->group('package', static function ($routes) {
-    $routes->get('/', [PackageController::class, 'index']);
-    $routes->get('create', [PackageController::class, 'create']);
-    $routes->get('(:num)/edit', [PackageController::class, 'edit']);
-    $routes->get('delete/(:num)', [PackageController::class, 'delete']);
-    $routes->post('save', [PackageController::class, 'save']);
-    $routes->get('list', [PackageController::class, 'list']);
-});
-
-$routes->group('product', static function ($routes) {
-    $routes->get('/', [ProductController::class, 'index']);
-    $routes->get('create', [ProductController::class, 'create']);
-    $routes->get('(:num)/edit', [ProductController::class, 'edit']);
-    $routes->get('delete/(:num)', [ProductController::class, 'delete']);
-    $routes->post('save', [ProductController::class, 'save']);
-    $routes->get('list', [ProductController::class, 'list']);
-});
 
 $routes->group('order', static function ($routes) {
     $routes->get('/', [OrderController::class, 'index']);
@@ -55,4 +30,42 @@ $routes->group('order', static function ($routes) {
     $routes->post('save', [OrderController::class, 'save']);
     $routes->get('list', [OrderController::class, 'list']);
     $routes->get('print/(:num)', [OrderController::class, 'print']);
+});
+
+$routes->group('report', static function ($routes) {
+    $routes->get('customer', [ReportController::class, 'customer']);
+    $routes->get('package', [ReportController::class, 'package']);
+    $routes->get('product', [ReportController::class, 'product']);
+    $routes->get('order', [ReportController::class, 'order']);
+});
+
+$routes->group('register', static function ($routes) {
+    
+    $routes->group('customer', static function ($routes) {
+        $routes->get('/', [CustomerController::class, 'index']);
+        $routes->get('create', [CustomerController::class, 'create']);
+        $routes->get('(:num)/edit', [CustomerController::class, 'edit']);
+        $routes->get('delete/(:num)', [CustomerController::class, 'delete']);
+        $routes->post('save', [CustomerController::class, 'save']);
+        $routes->get('list', [CustomerController::class, 'list']);
+    });
+
+    $routes->group('package', static function ($routes) {
+        $routes->get('/', [PackageController::class, 'index']);
+        $routes->get('create', [PackageController::class, 'create']);
+        $routes->get('(:num)/edit', [PackageController::class, 'edit']);
+        $routes->get('delete/(:num)', [PackageController::class, 'delete']);
+        $routes->post('save', [PackageController::class, 'save']);
+        $routes->get('list', [PackageController::class, 'list']);
+    });
+
+    $routes->group('product', static function ($routes) {
+        $routes->get('/', [ProductController::class, 'index']);
+        $routes->get('create', [ProductController::class, 'create']);
+        $routes->get('(:num)/edit', [ProductController::class, 'edit']);
+        $routes->get('delete/(:num)', [ProductController::class, 'delete']);
+        $routes->post('save', [ProductController::class, 'save']);
+        $routes->get('list', [ProductController::class, 'list']);
+    });
+    
 });

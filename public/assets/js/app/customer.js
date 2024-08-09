@@ -1,6 +1,6 @@
 $(function () {
     $('#table').bootstrapTable({
-        url: "customer/list",
+        url: `${base_url}/register/customer/list`,
         sidePagination: "server",
         queryParamsType: "limit",
         queryParams: queryParams,
@@ -55,10 +55,10 @@ $(function () {
                 },
                 events: {
                     "click .edit": function(e, value, row) {
-                        window.location.href = `customer/${row.customer_id}/edit`;
+                        window.location.href = `${base_url}/register/customer/${row.customer_id}/edit`;
                     },
                     "click .delete": function(e, value, row) {
-                        window.location.href = `customer/delete/${row.customer_id}`;
+                        window.location.href = `${base_url}/register/customer/delete/${row.customer_id}`;
                     }
                 }
             }

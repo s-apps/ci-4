@@ -16,7 +16,7 @@ class CustomerController extends BaseController
 
     public function index()
     {
-        return view('customer/list');
+        return view('register/customer/list');
     }
 
     public function list()
@@ -47,13 +47,13 @@ class CustomerController extends BaseController
     public function create()
     {
         helper('form');
-        return view('customer/form');
+        return view('register/customer/form');
     }
 
     public function edit($id)
     {
         helper('form');
-        return view('customer/form', ["customer" => $this->model->asObject()->find($id)]);
+        return view('register/customer/form', ["customer" => $this->model->asObject()->find($id)]);
     }
 
     public function save()
@@ -161,7 +161,7 @@ class CustomerController extends BaseController
             ]
         ])) {
             // The validation fails, so returns the form.
-            return view('customer/form', ['errors' => $this->validator->getErrors()]);
+            return view('register/customer/form', ['errors' => $this->validator->getErrors()]);
         }
 
         // Gets the validated data.
@@ -201,13 +201,13 @@ class CustomerController extends BaseController
             $this->model->update();
         }
 
-        return redirect()->to('customer');        
+        return redirect()->to('register/customer');        
     }
 
     public function delete($id)
     {
         $this->model->where('customer_id', $id)->delete();
-        return redirect()->to('customer');     
+        return redirect()->to('register/customer');     
     }
 
 }

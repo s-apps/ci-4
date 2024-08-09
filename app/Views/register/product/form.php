@@ -9,7 +9,7 @@
         <div class="card-header text-secondary">
             <string class="text-secondary">
                 <?php
-                    switch ($uri->getSegment(2)) {
+                    switch ($uri->getSegment(3)) {
                         case 'create':
                             echo 'Adicionando';
                         break;
@@ -23,7 +23,7 @@
                 ?>
             </string>
         </div>
-        <form action="<?php echo base_url('product/save');?>" method="post">
+        <form action="<?php echo base_url('register/product/save');?>" method="post">
             <div class="card-body" style="background-color: rgba( 37, 43, 54 , 0.03);">
 
                 <?php if (session()->has('error')) { ?>
@@ -83,7 +83,7 @@
                     </svg>
                     Salvar
                 </button>
-                <a id="cancel" class="btn btn-secondary" href="<?php echo base_url('product');?>">
+                <a id="cancel" class="btn btn-secondary" href="<?php echo base_url('register/product');?>">
                     <svg class="icon me-1">
                         <use href="<?php echo base_url('assets/vendors/@coreui/icons/svg/free.svg#cil-action-undo');?>"></use>
                     </svg>

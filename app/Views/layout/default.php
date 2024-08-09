@@ -52,27 +52,41 @@
 
     <?php
         $uri = service('uri');
-        switch ($uri->getSegment(1)) {
-            case 'customer':
-                echo '<script src="' . base_url('assets/js/app/customer.js') . '"></script>';
-            break;
-            case 'package':
-                echo '<script src="' . base_url('assets/js/app/package.js') . '"></script>';
-            break;    
-            case 'product':
-                echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
-            break;   
-            case 'order':
+            /* switch ($uri->getSegment(2)) {
+                case 'customer':
+                    echo '<script src="' . base_url('assets/js/app/customer.js') . '"></script>';
+                break;
+                case 'package':
+                    echo '<script src="' . base_url('assets/js/app/package.js') . '"></script>';
+                break;    
+                case 'product':
+                    echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
+                break;   
+            }  */
+/*         } else {
+            if ($uri->getSegment(1) === 'order' && $uri->getTotalSegments() === 1) {
                 echo '<script src="' . base_url('assets/js/app/report.js') . '"></script>';
-                if ($uri->getSegment(2) === '') {
-                    echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
-                } else {    
-                    echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
-                }
-            break;    
-            default:
-                echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';
-            break;    
+                echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
+            } else {
+                echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
+            }
+
+            echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';
+        } */
+
+        if ($uri->getSegment(1) === '') {
+            echo '<script src="' . base_url('assets/js/app/dashboard.js') . '"></script>';
+        } else if ($uri->getSegment(2) === 'customer') {
+            echo '<script src="' . base_url('assets/js/app/customer.js') . '"></script>';
+        } else if ($uri->getSegment(2) === 'package') {
+            echo '<script src="' . base_url('assets/js/app/package.js') . '"></script>';
+        } else if ($uri->getSegment(2) === 'product') {
+            echo '<script src="' . base_url('assets/js/app/product.js') . '"></script>';
+        } else if ($uri->getSegment(1) === 'order' &&  $uri->getTotalSegments() === 1) {
+            echo '<script src="' . base_url('assets/js/app/report.js') . '"></script>';
+            echo '<script src="' . base_url('assets/js/app/order_list.js') . '"></script>';
+        } else if ($uri->getSegment(1) === 'order' && ($uri->getSegment(2) === 'create' || $uri->getSegment(3) === 'edit')) {
+            echo '<script src="' . base_url('assets/js/app/order.js') . '"></script>';
         }
     ?>
 

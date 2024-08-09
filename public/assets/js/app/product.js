@@ -11,7 +11,7 @@ $("#cost_value, #sale_value, #resale_value").inputmask({
 
 $(function () {
     $('#table').bootstrapTable({
-        url: "product/list",
+        url: `${base_url}/register/product/list`,
         sidePagination: "server",
         queryParamsType: "limit",
         queryParams: queryParams,
@@ -86,10 +86,10 @@ $(function () {
                 },
                 events: {
                     "click .edit": function(e, value, row) {
-                        window.location.href = `product/${row.product_id}/edit`;
+                        window.location.href = `${base_url}/register/product/${row.product_id}/edit`;
                     },
                     "click .delete": function(e, value, row) {
-                        window.location.href = `product/delete/${row.product_id}`;
+                        window.location.href = `${base_url}/register/product/delete/${row.product_id}`;
                     }
                 }
             }
